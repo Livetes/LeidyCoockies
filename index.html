@@ -3,303 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leidy Cookies - Biscoitos Artesanais</title>
+    <title>Leidy Cookies - Fornadas Artesanais</title>
+    <!-- Chart.js para o vendedor -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --primary: #2E5A44;
-            --primary-light: #4A7C59;
-            --primary-dark: #1C3B2B;
-            --accent: #8B5A2B;
-            --accent-light: #D2B48C;
-            --bg-light: #F8F5F0;
+            --primary-dark: #1E4635;
+            --primary: #2C5E48;
+            --primary-light: #3D7A60;
+            --brown-accent: #8C532B;
+            --brown-hover: #734220;
+            --bg-cream: #F9F6F0;
             --card-bg: #FFFFFF;
-            --text-dark: #2B2625;
-            --text-muted: #6B6563;
-            --border-color: #E2D9CF;
-            --danger: #A94442;
+            --text-dark: #2C2825;
+            --text-muted: #6B6560;
+            --border-color: #E6E0D6;
+            --danger: #B93838;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
-        body { background-color: var(--bg-light); color: var(--text-dark); min-height: 100vh; display: flex; flex-direction: column; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
 
+        body {
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER SUPERIOR VERDE */
         header {
-            background-color: var(--primary); color: white; padding: 1rem 1.5rem;
-            display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1); sticky: top; z-index: 100;
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            position: relative;
+            z-index: 10;
         }
 
-        .brand { display: flex; align-items: center; gap: 12px; }
-        .logo-svg { width: 42px; height: 42px; }
-        .brand-title { font-size: 1.5rem; font-weight: 700; color: #FFF; }
-
-        .role-switcher {
-            display: flex; background: rgba(0,0,0,0.2); padding: 4px;
-            border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);
+        .brand-center {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 0 auto;
         }
 
-        .role-btn {
-            background: transparent; border: none; color: rgba(255,255,255,0.8);
-            padding: 6px 14px; border-radius: 16px; cursor: pointer;
-            font-size: 0.85rem; font-weight: 600; transition: all 0.3s ease;
+        .logo-circle {
+            width: 44px;
+            height: 44px;
+            background: #F3E5D8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            border: 2px solid #8C532B;
         }
 
-        .role-btn.active { background: #FFF; color: var(--primary); box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
-
-        nav { background: #FFF; border-bottom: 1px solid var(--border-color); display: flex; justify-content: center; gap: 1rem; padding: 0 1rem; }
-        .nav-link { padding: 1rem 1.2rem; color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.95rem; border-bottom: 3px solid transparent; cursor: pointer; }
-        .nav-link.active { color: var(--primary); border-bottom-color: var(--primary); }
-
-        main { max-width: 1000px; width: 100%; margin: 1.5rem auto; padding: 0 1rem; flex: 1; }
-        .section-page { display: none; }
-        .section-page.active { display: block; }
-
-        .card { background: #FFF; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid var(--border-color); margin-bottom: 1.5rem; }
-
-        .fornada-banner {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white; border-radius: 20px; padding: 2rem; text-align: center; margin-bottom: 2rem;
+        .brand-titles {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
         }
-        .user-welcome { font-size: 1.1rem; opacity: 0.9; margin-bottom: 0.5rem; }
-        .today-date { font-size: 0.85rem; opacity: 0.8; margin-bottom: 1.5rem; }
-        .fornada-label { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; color: var(--accent-light); margin-bottom: 0.5rem; }
-        .fornada-date-big { font-size: 2.2rem; font-weight: 800; margin-bottom: 1rem; }
 
-        .countdown-box { display: inline-flex; gap: 1rem; background: rgba(0,0,0,0.2); padding: 0.75rem 1.5rem; border-radius: 30px; }
-        .countdown-item { display: flex; flex-direction: column; align-items: center; }
-        .countdown-val { font-weight: 800; font-size: 1.2rem; }
-        .countdown-unit { font-size: 0.65rem; text-transform: uppercase; opacity: 0.8; }
+        .brand-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #FFFFFF;
+            line-height: 1.1;
+        }
 
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
-        .product-card { background: #FFF; border-radius: 16px; overflow: hidden; border: 1px solid var(--border-color); display: flex; flex-direction: column; }
-        .product-img { height: 150px; background-color: #F5EBE0; display: flex; align-items: center; justify-content: center; font-size: 4rem; position: relative; }
-        .badge-stock { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.9); color: var(--primary-dark); padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 700; }
-        .product-details { padding: 1.2rem; display: flex; flex-direction: column; flex: 1; }
-        .product-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3rem; }
-        .product-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; flex: 1; }
-        .product-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
-        .product-price { font-size: 1.25rem; font-weight: 800; color: var(--accent); }
+        .brand-title span {
+            color: #E2B184;
+        }
 
-        .btn { background: var(--primary); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 10px; font-weight: 600; cursor: pointer; }
-        .btn-secondary { background: #EFEBE4; color: var(--text-dark); }
-        .btn-danger { background: var(--danger); color: white; }
+        .brand-subtitle {
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #C2D6CC;
+            font-weight: 700;
+        }
 
-        .form-group { margin-bottom: 1.2rem; }
-        .form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem; }
-        .form-control { width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border-color); border-radius: 10px; font-size: 0.95rem; outline: none; }
+        .header-controls {
+            position: absolute;
+            right: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-        .table-responsive { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
-        th, td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border-color); }
-        th { background: #F4EFEA; font-weight: 700; }
+        .badge-mode {
+            background: rgba(0,0,0,0.25);
+            color: #FFF;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
 
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
-        .stat-card { background: white; border-radius: 14px; padding: 1.2rem; border: 1px solid var(--border-color); }
-        .stat-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
-        .stat-value { font-size: 1.4rem; font-weight: 800; color: var(--primary); margin-top: 0.3rem; }
+        .btn-access {
+            background: var(--brown-accent);
+            color: white;
+            border: none;
+            padding: 7px 16px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
-        .modal-content { background: white; padding: 2rem; border-radius: 20px; max-width: 420px; width: 90%; }
-    </style>
-</head>
-<body>
+        .btn-access:hover {
+            background: var(--brown-hover);
+        }
 
-    <header>
-        <div class="brand">
-            <svg class="logo-svg" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="45" fill="#8B5A2B"/>
-                <circle cx="50" cy="50" r="38" fill="#D2B48C"/>
-                <circle cx="35" cy="35" r="5" fill="#3D2314"/>
-                <circle cx="55" cy="30" r="6" fill="#3D2314"/>
-                <circle cx="30" cy="60" r="5.5" fill="#3D2314"/>
-                <circle cx="50" cy="68" r="4.5" fill="#3D2314"/>
-            </svg>
-            <div class="brand-title">Leidy Cookies</div>
-        </div>
-        <div class="role-switcher">
-            <button class="role-btn active" id="btn-role-client" onclick="switchRole('client')">Cliente</button>
-            <button class="role-btn" id="btn-role-seller" onclick="switchRole('seller')">Vendedor</button>
-        </div>
-    </header>
+        /* NAVEGAÇÃO SECUNDÁRIA ESCURA */
+        nav {
+            background-color: #163628;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 0.75rem 1rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
 
-    <nav id="nav-client">
-        <a class="nav-link active" onclick="showClientTab('tab-home', this)">Início</a>
-        <a class="nav-link" onclick="showClientTab('tab-products', this)">Produtos</a>
-        <a class="nav-link" onclick="showClientTab('tab-orders', this)">Meus Pedidos</a>
-    </nav>
+        .nav-link {
+            color: #D1E0D8;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
 
-    <nav id="nav-seller" style="display: none;">
-        <a class="nav-link active" onclick="showSellerTab('tab-dash', this)">Visão Analítica</a>
-        <a class="nav-link" onclick="showSellerTab('tab-manage-products', this)">Produtos & Preços</a>
-        <a class="nav-link" onclick="showSellerTab('tab-seller-orders', this)">Pedidos Recebidos</a>
-        <a class="nav-link" onclick="showSellerTab('tab-config', this)">Próxima Fornada</a>
-    </nav>
+        .nav-link:hover, .nav-link.active {
+            color: #FFFFFF;
+            background: rgba(255,255,255,0.1);
+        }
 
-    <main>
-        <!-- CLIENTE: INÍCIO -->
-        <section id="tab-home" class="section-page active">
-            <div class="fornada-banner">
-                <div class="user-welcome" id="display-user-name">Olá, Visitante!</div>
-                <div class="today-date" id="display-today-date">--</div>
-                <div class="fornada-label">Próxima Fornada Especial</div>
-                <div class="fornada-date-big" id="display-fornada-date">Carregando...</div>
+        /* CONTAINER PRINCIPAL */
+        main {
+            max-width: 1000px;
+            width: 100%;
+            margin: 1.5rem auto;
+            padding: 0 1rem;
+            flex: 1;
+        }
 
-                <div class="countdown-box">
-                    <div class="countdown-item"><span class="countdown-val" id="cd-days">00</span><span class="countdown-unit">Dias</span></div>
-                    <div class="countdown-item"><span class="countdown-val" id="cd-hours">00</span><span class="countdown-unit">Horas</span></div>
-                    <div class="countdown-item"><span class="countdown-val" id="cd-min">00</span><span class="countdown-unit">Min</span></div>
-                </div>
-            </div>
+        .section-page {
+            display: none;
+        }
 
-            <div class="card" id="card-client-register">
-                <h3 style="margin-bottom: 1rem; color: var(--primary);">Seu Cadastro para Pedidos</h3>
-                <form onsubmit="handleClientRegister(event)">
-                    <div class="form-group">
-                        <label>Seu Nome Completo</label>
-                        <input type="text" id="client-name" class="form-control" placeholder="Ex: Maria Silva" required>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                        <div class="form-group">
-                            <label>Seu E-mail</label>
-                            <input type="email" id="client-email" class="form-control" placeholder="maria@email.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Telefone / WhatsApp</label>
-                            <input type="tel" id="client-phone" class="form-control" placeholder="(11) 99999-9999" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn" style="width: 100%;">Salvar Dados</button>
-                </form>
-            </div>
-        </section>
+        .section-page.active {
+            display: block;
+        }
 
-        <!-- CLIENTE: PRODUTOS -->
-        <section id="tab-products" class="section-page">
-            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">Nossos Cookies Disponíveis</h2>
-            <div class="products-grid" id="client-products-grid"></div>
-        </section>
+        /* CARDS E ESTILOS GERAIS */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+            border: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
 
-        <!-- CLIENTE: MEUS PEDIDOS -->
-        <section id="tab-orders" class="section-page">
-            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">Meus Pedidos</h2>
-            <div class="card">
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Data</th>
-                                <th>Produto</th>
-                                <th>Qtd</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody id="client-orders-tbody"></tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
+        /* BANNER VERDE DA FORNADA (FOTO 2) */
+        .fornada-banner-green {
+            background: var(--primary);
+            color: white;
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(44, 94, 72, 0.25);
+            margin-bottom: 1.5rem;
+        }
 
-        <!-- VENDEDOR: PAINEL -->
-        <section id="tab-dash" class="section-page">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                <h2 style="color: var(--primary);">Visão Analítica de Vendas</h2>
-                <button class="btn btn-danger" onclick="logoutSeller()" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Sair / Logoff</button>
-            </div>
+        .fornada-banner-green::after {
+            content: '🍪';
+            position: absolute;
+            right: 20px;
+            bottom: -20px;
+            font-size: 11rem;
+            opacity: 0.12;
+            pointer-events: none;
+        }
 
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-label">Faturamento Previsto</div>
-                    <div class="stat-value" id="stat-revenue">R$ 0,00</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Custo Total de Produção</div>
-                    <div class="stat-value" style="color: var(--accent);" id="stat-cost">R$ 0,00</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Lucro Líquido Previsto</div>
-                    <div class="stat-value" style="color: #27ae60;" id="stat-profit">R$ 0,00</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Margem de Lucro</div>
-                    <div class="stat-value" style="color: #8e44ad;" id="stat-margin">0%</div>
-                </div>
-            </div>
+        .welcome-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
 
-            <div class="card">
-                <h3 style="margin-bottom: 1rem; color: var(--primary);">Comparativo Financeiro</h3>
-                <canvas id="profitChart" height="100"></canvas>
-            </div>
-        </section>
+        .welcome-date {
+            font-size: 0.85rem;
+            opacity: 0.85;
+            margin-bottom: 1.5rem;
+        }
 
-        <!-- VENDEDOR: PRODUTOS -->
-        <section id="tab-manage-products" class="section-page">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                <h2 style="color: var(--primary);">Gerenciar Produtos & Estoque</h2>
-                <button class="btn" onclick="openAddProductModal()">+ Novo Cookie</button>
-            </div>
-            <div class="card">
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Cookie</th>
-                                <th>Preço Venda</th>
-                                <th>Custo Unit.</th>
-                                <th>Estoque</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="seller-products-tbody"></tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
+        .banner-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 800;
+            color: #E2B184;
+            margin-bottom: 0.4rem;
+        }
 
-        <!-- VENDEDOR: PEDIDOS -->
-        <section id="tab-seller-orders" class="section-page">
-            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">Pedidos dos Clientes</h2>
-            <div class="card">
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Cliente</th>
-                                <th>Contato</th>
-                                <th>Produto</th>
-                                <th>Qtd</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody id="seller-orders-tbody"></tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
+        .banner-date-big {
+            font-size: 2.8rem;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            margin-bottom: 1.5rem;
+        }
 
-        <!-- VENDEDOR: CONFIG FORNADA -->
-        <section id="tab-config" class="section-page">
-            <h2 style="margin-bottom: 1.5rem; color: var(--primary);">Agendar Próxima Fornada</h2>
-            <div class="card" style="max-width: 500px;">
-                <form onsubmit="saveFornadaDate(event)">
-                    <div class="form-group">
-                        <label>Data e Hora da Próxima Fornada</label>
-                        <input type="datetime-local" id="input-fornada-date" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn">Salvar Data</button>
-                </form>
-            </div>
-        </section>
-    </main>
+        .countdown-green-box {
+            display: inline-flex;
+            gap: 1.2rem;
+            background: #1C3D2F;
+            padding: 0.8rem 1.8rem;
+            border-radius: 35px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
 
-    <!-- MODAL COMPRA -->
-    <div class="modal" id="modal-buy">
-        <div class="modal-content">
-            <h3 style="margin-bottom: 1rem; color: var(--primary);" id="buy-modal-title">Fazer Pedido</h3>
-            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;" id="buy-modal-desc"></p>
-            <form onsubmit="confirmOrder(event)">
-                <input type="hidden" id="buy-product-id">
-                <div class="form-group">
-                    <label>Quantidade desejada</label>
-                    <input type="number" id="buy-quantity" class="form-control" min="1" value="1" oninput="updateBuyTotal()" required>
-                </div>
-                <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1
+        .cd-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cd-val {
+            font-size: 1.4rem;
+            font-weight: 800;
+        }
+
+        .cd-unit {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            opacity: 0.75;
+            letter-spacing: 1px;
+        }
+
+        /* GRID DE PRODUTOS
