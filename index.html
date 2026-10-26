@@ -826,7 +826,7 @@
             <form onsubmit="handleSellerLogin(event)">
                 <div class="form-group">
                     <label>Usuário</label>
-                    <input type="text" id="seller-user" class="form-control" placeholder="admin" required>
+                    <input type="text" id="seller-user" class="form-control" placeholder="Usuário" required>
                 </div>
                 <div class="form-group">
                     <label>Senha</label>
@@ -1006,7 +1006,7 @@
                 showAppSite();
                 switchRole('seller');
             } else {
-                alert('Usuário ou senha incorretos! Use admin e cookie123');
+                alert('Usuário ou senha inválidos.');
             }
         }
 
@@ -1254,7 +1254,7 @@
                     labels: ['Faturamento', 'Custo Produção', 'Lucro Líquido'],
                     datasets: [{
                         data: [totalRevenue, totalCost, totalProfit],
-                        backgroundColor: ['#2E5A44', '#8C532B', '#27ae60'],
+                        backgroundColor: ['#2E5A44', '#8B5A2B', '#27ae60'],
                         borderRadius: 8
                     }]
                 },
