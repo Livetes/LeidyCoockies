@@ -3,1512 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leidy Cookies - Fornadas Artesanais</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        cookie: {
-                            50: '#FAF6F0',
-                            100: '#F5EBE0',
-                            200: '#E3CAA5',
-                            300: '#D2B48C',
-                            500: '#B58253',
-                            700: '#8B5A2B',
-                            800: '#5C3A18',
-                            900: '#3D240E',
-                        },
-                        sage: {
-                            50: '#F2F7F4',
-                            100: '#E1ECE5',
-                            300: '#A3C4B0',
-                            500: '#5F9B74',
-                            600: '#4A7C59',
-                            800: '#2E5A44',
-                            900: '#1D3B2C',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'Segoe UI', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- FontAwesome & Google Fonts -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Chart.js for Analytics -->
+    <title>Leidy Cookies - Biscoitos Artesanais</title>
+    <!-- Chart.js para gráficos analíticos -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(10px);
-        }
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #F5EBE0;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #D2B48C;
-            border-radius: 9999px;
-        }
-    </style>
-</head>
-<body class="bg-cookie-50 text-cookie-900 min-h-screen flex flex-col justify-between antialiased">
-
-    <!-- TOP HEADER / NAVBAR -->
-    <header class="bg-sage-800 text-white shadow-md sticky top-0 z-40">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-            <!-- Brand Logo -->
-            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
-                <!-- SVG Cookie Icon Logo -->
-                <div class="w-10 h-10 bg-cookie-100 rounded-full flex items-center justify-center p-1.5 shadow-inner border-2 border-cookie-300">
-                    <svg viewBox="0 0 100 100" class="w-full h-full text-cookie-700 fill-current">
-                        <!-- Cookie shape with bite mark -->
-                        <path d="M50 5 C 75 5, 95 25, 95 50 C 95 60, 85 62, 80 68 C 75 74, 82 85, 75 90 C 65 97, 30 95, 15 80 C 0 62, 5 30, 25 12 C 35 5, 45 5, 50 5 Z" fill="#D2B48C"/>
-                        <!-- Chocolate Chips -->
-                        <circle cx="30" cy="30" r="6" fill="#5C3A18"/>
-                        <circle cx="55" cy="25" r="5" fill="#5C3A18"/>
-                        <circle cx="70" cy="45" r="5.5" fill="#5C3A18"/>
-                        <circle cx="35" cy="60" r="7" fill="#5C3A18"/>
-                        <circle cx="58" cy="72" r="6" fill="#5C3A18"/>
-                        <circle cx="22" cy="45" r="4.5" fill="#5C3A18"/>
-                    </svg>
-                </div>
-                <div>
-                    <h1 class="text-xl font-extrabold tracking-tight text-cookie-100 flex items-center gap-1">
-                        Leidy <span class="text-cookie-300">Cookies</span>
-                    </h1>
-                    <p class="text-[10px] uppercase tracking-widest text-sage-300 font-semibold">Fornadas Artesanais</p>
-                </div>
-            </div>
-
-            <!-- Header Controls: Role Switcher & User Profile Info -->
-            <div class="flex items-center gap-3">
-                <!-- Mode Badge Indicator -->
-                <div class="hidden sm:flex items-center text-xs font-semibold px-3 py-1 rounded-full bg-sage-900/60 border border-sage-600 text-cookie-100">
-                    <i class="fa-solid font-xs mr-1.5" id="roleIcon"></i>
-                    <span id="roleLabel">Modo Cliente</span>
-                </div>
-
-                <!-- User Session / Switcher button -->
-                <button onclick="toggleRoleModal()" class="flex items-center gap-2 bg-cookie-700 hover:bg-cookie-800 text-white text-xs font-medium px-3.5 py-2 rounded-xl transition shadow-sm border border-cookie-500">
-                    <i class="fa-solid fa-user-gear text-cookie-200"></i>
-                    <span id="userNavBtnText">Trocar Acesso</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Sub-Navigation Bar -->
-        <nav class="bg-sage-900 border-t border-sage-700/60 text-xs font-medium">
-            <div class="max-w-6xl mx-auto px-4 flex overflow-x-auto space-x-1 sm:space-x-4 py-2" id="navTabsContainer">
-                <!-- Navigation tabs dynamically injected here based on role -->
-            </div>
-        </nav>
-    </header>
-
-    <!-- MAIN CONTENT AREA -->
-    <main class="max-w-6xl mx-auto px-4 py-6 w-full flex-grow">
-
-        <!-- ==================== CLIENT VIEWS ==================== -->
-        
-        <!-- CLIENT HOME TAB -->
-        <section id="view-home" class="space-y-6">
-            <!-- Welcome Header -->
-            <div class="bg-white rounded-3xl p-6 shadow-sm border border-cookie-200/60 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div>
-                    <div class="inline-flex items-center gap-2 text-xs font-bold text-sage-600 uppercase tracking-wider bg-sage-50 px-3 py-1 rounded-full mb-2">
-                        <i class="fa-regular fa-calendar-check"></i>
-                        <span id="currentDateDisplay">Hoje</span>
-                    </div>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-cookie-900" id="clientGreeting">Olá, Visitante!</h2>
-                    <p class="text-sm text-gray-600 mt-1">Seja bem-vindo(a) à nossa fábrica de cookies fresquinhos.</p>
-                </div>
-                <div id="clientAuthNotice" class="hidden text-right">
-                    <button onclick="openClientAuthModal()" class="inline-flex items-center gap-2 text-xs bg-sage-800 text-white font-bold px-4 py-2.5 rounded-xl hover:bg-sage-900 transition">
-                        <i class="fa-solid fa-right-to-bracket"></i> Identificar-se / Cadastrar
-                    </button>
-                </div>
-            </div>
-
-            <!-- PROMINENT NEXT BATCH BANNER -->
-            <div class="relative overflow-hidden bg-gradient-to-br from-cookie-800 via-cookie-700 to-sage-800 rounded-3xl text-white p-6 sm:p-8 shadow-xl border border-cookie-600">
-                <!-- Background Cookie Decorative Silhouette -->
-                <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
-                    <i class="fa-solid fa-cookie text-9xl text-white"></i>
-                </div>
-
-                <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-                    <div class="space-y-2">
-                        <span class="inline-block bg-cookie-300 text-cookie-900 text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
-                            <i class="fa-solid fa-fire text-cookie-700 mr-1"></i> Próxima Fornada
-                        </span>
-                        <h3 class="text-3xl sm:text-5xl font-black tracking-tight text-cookie-100" id="nextBatchDateBanner">
-                            --/--/---- às --:--
-                        </h3>
-                        <p class="text-cookie-100/90 text-sm max-w-lg">
-                            Garanta seus cookies quentinhos! As fornadas são limitadas e produzidas artesanalmente sob encomenda.
-                        </p>
-                    </div>
-
-                    <!-- Countdown or Status Box -->
-                    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-white/20 text-center min-w-[220px]">
-                        <p class="text-xs text-cookie-200 font-semibold uppercase tracking-wider mb-1">Status da Fornada</p>
-                        <div id="batchStatusBadge" class="inline-block px-3 py-1 rounded-lg text-xs font-bold bg-sage-500 text-white mb-2">
-                            Aberto para Pedidos
-                        </div>
-                        <div class="text-xs text-cookie-100 font-medium" id="batchCountdownText">
-                            Reserve antes que esgote!
-                        </div>
-                        <button onclick="switchTab('cardapio')" class="mt-3 w-full bg-cookie-300 hover:bg-cookie-200 text-cookie-900 font-bold text-xs py-2.5 px-4 rounded-xl shadow transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-cookie-bite"></i> Ver Cardápio & Pedir
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Quick Info Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-cookie-100 flex items-start gap-4">
-                    <div class="bg-sage-100 text-sage-800 p-3 rounded-xl text-xl">
-                        <i class="fa-solid fa-leaf"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-cookie-900 text-sm">Ingredientes Selecionados</h4>
-                        <p class="text-xs text-gray-500 mt-1">Manteiga pura, chocolates nobres e massa feita no dia da entrega.</p>
-                    </div>
-                </div>
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-cookie-100 flex items-start gap-4">
-                    <div class="bg-cookie-100 text-cookie-800 p-3 rounded-xl text-xl">
-                        <i class="fa-solid fa-truck-fast"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-cookie-900 text-sm">Entrega / Retirada</h4>
-                        <p class="text-xs text-gray-500 mt-1">Combine a entrega direta no seu WhatsApp logo após a confirmação.</p>
-                    </div>
-                </div>
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-cookie-100 flex items-start gap-4">
-                    <div class="bg-amber-100 text-amber-800 p-3 rounded-xl text-xl">
-                        <i class="fa-solid fa-heart"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-cookie-900 text-sm">Feito com Amor</h4>
-                        <p class="text-xs text-gray-500 mt-1">Receitas exclusivas Leidy Cookies pensadas para os melhores momentos.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CLIENT CARDÁPIO / PRODUCTS TAB -->
-        <section id="view-cardapio" class="space-y-6 hidden">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-cookie-200 pb-4">
-                <div>
-                    <h2 class="text-2xl font-bold text-cookie-900 flex items-center gap-2">
-                        <i class="fa-solid fa-cookie text-cookie-700"></i> Nossos Cookies Disponíveis
-                    </h2>
-                    <p class="text-xs text-gray-600 mt-0.5">Escolha seus favoritos para a próxima fornada de <span id="cardapioBatchDate" class="font-bold text-sage-800">--/--</span>.</p>
-                </div>
-                <!-- Cart Summary Button / Filter -->
-                <button onclick="openCartModal()" class="self-start sm:self-auto bg-sage-800 hover:bg-sage-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow flex items-center gap-2">
-                    <i class="fa-solid fa-basket-shopping text-cookie-200"></i>
-                    <span>Ver Sacola</span>
-                    <span id="cartCountBadge" class="bg-cookie-300 text-cookie-900 rounded-full text-[11px] px-2 py-0.5 font-black">0</span>
-                </button>
-            </div>
-
-            <!-- Products Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="clientProductsGrid">
-                <!-- Cookies will be rendered dynamically -->
-            </div>
-        </section>
-
-        <!-- CLIENT MY ORDERS TAB -->
-        <section id="view-meus-pedidos" class="space-y-6 hidden">
-            <div class="border-b border-cookie-200 pb-4">
-                <h2 class="text-2xl font-bold text-cookie-900 flex items-center gap-2">
-                    <i class="fa-solid fa-receipt text-cookie-700"></i> Minhas Solicitações de Pedidos
-                </h2>
-                <p class="text-xs text-gray-600 mt-0.5">Acompanhe o status do preparo dos seus cookies solicitados.</p>
-            </div>
-
-            <div id="clientOrdersList" class="space-y-4">
-                <!-- Dynamic List of Client Orders -->
-            </div>
-        </section>
-
-
-        <!-- ==================== SELLER VIEWS ==================== -->
-
-        <!-- SELLER DASHBOARD / ANALYTICS TAB -->
-        <section id="view-seller-dashboard" class="space-y-6 hidden">
-            <div class="border-b border-cookie-200 pb-4 flex flex-col sm:flex-row justify-between sm:items-center gap-2">
-                <div>
-                    <h2 class="text-2xl font-extrabold text-cookie-900 flex items-center gap-2">
-                        <i class="fa-solid fa-chart-line text-sage-800"></i> Visão Analítica de Vendas & Lucro
-                    </h2>
-                    <p class="text-xs text-gray-600">Estimativas e indicadores financeiros para a próxima fornada.</p>
-                </div>
-                <div class="bg-sage-100 text-sage-800 text-xs font-bold px-3 py-1.5 rounded-xl border border-sage-300 flex items-center gap-2">
-                    <i class="fa-solid fa-calendar-day"></i> Fornada: <span id="sellerDashboardBatchDate">--/--</span>
-                </div>
-            </div>
-
-            <!-- Financial Key Metrics Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <!-- Revenue Metric -->
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-cookie-100 relative overflow-hidden">
-                    <div class="text-xs font-bold text-gray-500 uppercase">Receita Prevista</div>
-                    <div class="text-2xl font-black text-sage-800 mt-2" id="metricRevenue">R$ 0,00</div>
-                    <p class="text-[11px] text-gray-400 mt-1">Valor total de pedidos reservados</p>
-                    <div class="absolute right-3 bottom-3 text-sage-200 text-4xl pointer-events-none">
-                        <i class="fa-solid fa-sack-dollar"></i>
-                    </div>
-                </div>
-
-                <!-- Cost Metric -->
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-cookie-100 relative overflow-hidden">
-                    <div class="text-xs font-bold text-gray-500 uppercase">Custo Previsto</div>
-                    <div class="text-2xl font-black text-amber-700 mt-2" id="metricCost">R$ 0,00</div>
-                    <p class="text-[11px] text-gray-400 mt-1">Custo estimado dos ingredientes</p>
-                    <div class="absolute right-3 bottom-3 text-amber-100 text-4xl pointer-events-none">
-                        <i class="fa-solid fa-box-open"></i>
-                    </div>
-                </div>
-
-                <!-- Net Profit Metric -->
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-cookie-100 relative overflow-hidden">
-                    <div class="text-xs font-bold text-gray-500 uppercase">Lucro Previsto</div>
-                    <div class="text-2xl font-black text-cookie-700 mt-2" id="metricProfit">R$ 0,00</div>
-                    <p class="text-[11px] text-gray-400 mt-1" id="metricMargin">Margem: 0%</p>
-                    <div class="absolute right-3 bottom-3 text-cookie-200 text-4xl pointer-events-none">
-                        <i class="fa-solid fa-chart-pie"></i>
-                    </div>
-                </div>
-
-                <!-- Reserved Units Metric -->
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-cookie-100 relative overflow-hidden">
-                    <div class="text-xs font-bold text-gray-500 uppercase">Unidades Solicitadas</div>
-                    <div class="text-2xl font-black text-cookie-900 mt-2" id="metricUnits">0 un</div>
-                    <p class="text-[11px] text-gray-400 mt-1" id="metricOrdersCount">0 pedidos realizados</p>
-                    <div class="absolute right-3 bottom-3 text-gray-200 text-4xl pointer-events-none">
-                        <i class="fa-solid fa-cookie-bite"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Analytics Chart and Breakdowns -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Sales chart container -->
-                <div class="lg:col-span-2 bg-white p-5 rounded-2xl shadow-sm border border-cookie-100 flex flex-col justify-between">
-                    <h3 class="text-sm font-bold text-cookie-900 mb-4 flex items-center gap-2">
-                        <i class="fa-solid fa-chart-bar text-cookie-700"></i> Desempenho por Produto Solicitado
-                    </h3>
-                    <div class="relative w-full h-64">
-                        <canvas id="profitChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- Product Demand Breakdown -->
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-cookie-100">
-                    <h3 class="text-sm font-bold text-cookie-900 mb-3 flex items-center gap-2">
-                        <i class="fa-solid fa-list-ol text-sage-800"></i> Demanda dos Cookies
-                    </h3>
-                    <p class="text-xs text-gray-500 mb-4">Quantidade reservada x estoque cadastrado.</p>
-                    <div id="analyticsProductList" class="space-y-3 max-h-64 overflow-y-auto pr-1">
-                        <!-- Rendered dynamically -->
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SELLER BATCH & PRODUCT MANAGEMENT TAB -->
-        <section id="view-seller-products" class="space-y-6 hidden">
-            <!-- Set Next Batch Date Box -->
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-sage-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div class="space-y-1">
-                    <h3 class="text-lg font-bold text-cookie-900 flex items-center gap-2">
-                        <i class="fa-solid fa-calendar-days text-sage-800"></i> Programar Próxima Fornada
-                    </h3>
-                    <p class="text-xs text-gray-600">Defina a data e horário em que os cookies estarão prontos para entrega.</p>
-                </div>
-                <form id="batchDateForm" onsubmit="saveBatchDate(event)" class="flex flex-wrap items-center gap-2 w-full md:w-auto">
-                    <input type="datetime-local" id="batchDateTimeInput" required class="bg-cookie-50 border border-cookie-300 text-cookie-900 text-xs rounded-xl p-2.5 focus:ring-2 focus:ring-sage-500 focus:outline-none flex-grow md:flex-grow-0">
-                    <button type="submit" class="bg-sage-800 hover:bg-sage-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow transition whitespace-nowrap">
-                        <i class="fa-solid fa-floppy-disk mr-1"></i> Salvar Data
-                    </button>
-                </form>
-            </div>
-
-            <!-- Products List Header -->
-            <div class="flex items-center justify-between border-b border-cookie-200 pb-4">
-                <div>
-                    <h2 class="text-xl font-extrabold text-cookie-900">Gerenciar Produtos / Cardápio</h2>
-                    <p class="text-xs text-gray-600">Cadastre, edite os preços, custos e estoques dos seus cookies.</p>
-                </div>
-                <button onclick="openProductModal()" class="bg-cookie-700 hover:bg-cookie-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow flex items-center gap-2">
-                    <i class="fa-solid fa-plus"></i> Novo Cookie
-                </button>
-            </div>
-
-            <!-- Products Table for Seller -->
-            <div class="bg-white rounded-2xl shadow-sm border border-cookie-100 overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-cookie-100/60 text-cookie-900 text-xs font-bold uppercase tracking-wider border-b border-cookie-200">
-                                <th class="p-4">Produto</th>
-                                <th class="p-4">Preço (Venda)</th>
-                                <th class="p-4">Custo Prod.</th>
-                                <th class="p-4">Estoque Fornada</th>
-                                <th class="p-4 text-center">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="sellerProductsTableBody" class="divide-y divide-cookie-100 text-xs text-cookie-900">
-                            <!-- Injected dynamically -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- SELLER ORDERS & CLIENT REQUESTS LIST -->
-        <section id="view-seller-orders" class="space-y-6 hidden">
-            <div class="border-b border-cookie-200 pb-4 flex flex-col sm:flex-row justify-between sm:items-center gap-2">
-                <div>
-                    <h2 class="text-xl font-extrabold text-cookie-900 flex items-center gap-2">
-                        <i class="fa-solid fa-users text-cookie-700"></i> Lista de Pedidos & Logins de Clientes
-                    </h2>
-                    <p class="text-xs text-gray-600">Confira as solicitações de clientes, contatos e altere o status da produção.</p>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="text-xs text-gray-500 font-medium">Filtrar Status:</span>
-                    <select id="sellerOrderStatusFilter" onchange="renderSellerOrders()" class="bg-white border border-cookie-300 text-cookie-900 text-xs rounded-xl p-2 font-medium">
-                        <option value="ALL">Todos os Pedidos</option>
-                        <option value="Pendente">Pendentes</option>
-                        <option value="Confirmado">Confirmados</option>
-                        <option value="Entregue">Entregues</option>
-                        <option value="Cancelado">Cancelados</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Orders Container -->
-            <div id="sellerOrdersContainer" class="space-y-4">
-                <!-- Dynamically injected -->
-            </div>
-        </section>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="bg-cookie-900 text-cookie-200 border-t border-cookie-800 text-xs py-6 mt-12">
-        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
-            <div class="flex items-center gap-2">
-                <div class="w-6 h-6 bg-cookie-700 rounded-full flex items-center justify-center text-cookie-100 text-[10px] font-bold">
-                    <i class="fa-solid fa-cookie"></i>
-                </div>
-                <span class="font-bold text-cookie-100">Leidy Cookies</span> &copy; 2026 - Todos os direitos reservados.
-            </div>
-            <p class="text-cookie-300/80">Desenvolvido para venda de fornadas artesanais de cookies.</p>
-        </div>
-    </footer>
-
-
-    <!-- ==================== MODALS ==================== -->
-
-    <!-- ROLE SWITCH / USER LOGIN MODAL -->
-    <div id="roleModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-cookie-200 relative animate-fade-in">
-            <button onclick="closeRoleModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-lg">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-            <h3 class="text-xl font-black text-cookie-900 mb-1 flex items-center gap-2">
-                <i class="fa-solid fa-user-shield text-sage-800"></i> Selecionar Perfil de Acesso
-            </h3>
-            <p class="text-xs text-gray-600 mb-6">Escolha como deseja visualizar o site do Leidy Cookies.</p>
-
-            <div class="space-y-4">
-                <!-- Client Role Option -->
-                <div onclick="selectRole('client')" class="p-4 border-2 border-cookie-200 rounded-2xl hover:border-sage-600 cursor-pointer transition flex items-center gap-4 bg-cookie-50/50 hover:bg-sage-50">
-                    <div class="bg-sage-800 text-white w-12 h-12 rounded-2xl flex items-center justify-center text-xl shadow-sm">
-                        <i class="fa-solid fa-bag-shopping"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-cookie-900 text-sm">Visão do Cliente</h4>
-                        <p class="text-xs text-gray-500 mt-0.5">Faça cadastro, veja o cardápio, a próxima fornada e solicite seus cookies.</p>
-                    </div>
-                </div>
-
-                <!-- Seller Role Option -->
-                <div onclick="selectRole('seller')" class="p-4 border-2 border-cookie-200 rounded-2xl hover:border-cookie-700 cursor-pointer transition flex items-center gap-4 bg-cookie-50/50 hover:bg-cookie-100/50">
-                    <div class="bg-cookie-700 text-white w-12 h-12 rounded-2xl flex items-center justify-center text-xl shadow-sm">
-                        <i class="fa-solid fa-store"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-cookie-900 text-sm">Visão do Vendedor (Dashboard)</h4>
-                        <p class="text-xs text-gray-500 mt-0.5">Defina datas de fornada, altere preços, gerencie estoques e analise lucros.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- CLIENT AUTH / REGISTRATION MODAL -->
-    <div id="clientAuthModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-cookie-200 relative">
-            <button onclick="closeClientAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-lg">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-            <div class="text-center mb-6">
-                <div class="w-12 h-12 bg-sage-100 text-sage-800 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-2">
-                    <i class="fa-solid fa-address-card"></i>
-                </div>
-                <h3 class="text-xl font-extrabold text-cookie-900">Cadastro do Cliente</h3>
-                <p class="text-xs text-gray-600 mt-1">Informe seus dados simples para registrar solicitações de cookies.</p>
-            </div>
-
-            <form id="clientAuthForm" onsubmit="handleClientRegister(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-cookie-900 mb-1">Seu Nome Completo *</label>
-                    <input type="text" id="clientNameInput" required placeholder="Ex: Maria Silva" class="w-full bg-cookie-50 border border-cookie-300 rounded-xl p-3 text-xs text-cookie-900 focus:ring-2 focus:ring-sage-500 focus:outline-none">
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold text-cookie-900 mb-1">E-mail *</label>
-                    <input type="email" id="clientEmailInput" required placeholder="mariasilva@email.com" class="w-full bg-cookie-50 border border-cookie-300 rounded-xl p-3 text-xs text-cookie-900 focus:ring-2 focus:ring-sage-500 focus:outline-none">
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold text-cookie-900 mb-1">Telefone / WhatsApp *</label>
-                    <input type="tel" id="clientPhoneInput" required placeholder="(11) 99999-9999" class="w-full bg-cookie-50 border border-cookie-300 rounded-xl p-3 text-xs text-cookie-900 focus:ring-2 focus:ring-sage-500 focus:outline-none">
-                </div>
-
-                <button type="submit" class="w-full bg-sage-800 hover:bg-sage-900 text-white font-bold text-xs py-3 rounded-xl shadow-md transition">
-                    Salvar Meus Dados & Continuar
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- SELLER ADD/EDIT PRODUCT MODAL -->
-    <div id="productModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-cookie-200 relative max-h-[90vh] overflow-y-auto">
-            <button onclick="closeProductModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-lg">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-            <h3 class="text-xl font-bold text-cookie-900 mb-4" id="productModalTitle">Cadastrar Novo Cookie</h3>
-
-            <form id="productForm" onsubmit="handleProductSubmit(event)" class="space-y-4">
-                <input type="hidden" id="productIdInput">
-
-                <div>
-                    <label class="block text-xs font-bold text-cookie-900 mb-1">Nome do Cookie *</label>
-                    <input type="text" id="prodName" required placeholder="Ex: Cookie Tradicional Gotas de Chocolate" class="w-full bg-cookie-50 border border-cookie-300 rounded-xl p-3 text-xs text-cookie-900 focus:ring-2 focus:ring-sage-500 focus:outline-none">
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold text-cookie-900 mb-1">Descrição do Cookie *</label>
-                    <textarea id="prodDesc" rows="2" required placeholder="Massa amanteigada com gotas de chocolate meio amargo de alta qualidade..." class="w-full bg-cookie-50 border border-cookie-300 rounded-xl p-3 text-xs text-cookie-900 focus:ring-2 focus:ring-sage-500 focus:outline-none"></textarea>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div>
-                        <label class="block text-xs font-bold text-cookie-900 mb-1">Preço Venda (R$) *</label>
-                        <input type="number" step="0.01" min="0" id="prodPrice" required placeholder="12.00" class="w-full bg-cookie-50 border border-cookie-300 rounded-xl p-3 text-xs text-cookie-900 focus:ring-2 focus:ring-sage-500 focus:outline-none">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-cookie-900 mb-1">Custo Estimado (R$) *</label>
-                        <input type="number" step="0.01" min="0" id="prodCost" required placeholder="4.50" class="w-full bg-cookie-50 border border-cookie-300 rounded-xl p-3 text-xs text-cookie-900 focus:ring-2 focus:ring-sage-500 focus:outline-none">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-cookie-900 mb-1">Qtd Disponível *</label>
-                        <input type="number" min="0" id="prodStock" required placeholder="30" class="w-full bg-cookie-50 border border-cookie-300 rounded-xl p-3 text-xs text-cookie-900 focus:ring-2 focus:ring-sage-500 focus:outline-none">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold text-cookie-900 mb-1">URL da Imagem ou Ícone Preset</label>
-                    <input type="url" id="prodImg" placeholder="https://images.unsplash.com/..." class="w-full bg-cookie-50 border border-cookie-300 rounded-xl p-3 text-xs text-cookie-900 focus:ring-2 focus:ring-sage-500 focus:outline-none">
-                    <p class="text-[10px] text-gray-400 mt-1">Deixe em branco para usar a imagem padrão de cookie.</p>
-                </div>
-
-                <div class="pt-2 flex gap-3">
-                    <button type="button" onclick="closeProductModal()" class="w-1/2 bg-gray-100 text-gray-700 font-bold text-xs py-3 rounded-xl hover:bg-gray-200">
-                        Cancelar
-                    </button>
-                    <button type="submit" class="w-1/2 bg-cookie-700 hover:bg-cookie-800 text-white font-bold text-xs py-3 rounded-xl shadow">
-                        Salvar Cookie
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- CART / ORDER CONFIRMATION MODAL FOR CLIENT -->
-    <div id="cartModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-cookie-200 relative max-h-[90vh] overflow-y-auto">
-            <button onclick="closeCartModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-lg">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-            <h3 class="text-xl font-extrabold text-cookie-900 mb-1 flex items-center gap-2">
-                <i class="fa-solid fa-basket-shopping text-sage-800"></i> Sua Sacola de Cookies
-            </h3>
-            <p class="text-xs text-gray-600 mb-4">Confira os itens selecionados para a próxima fornada.</p>
-
-            <div id="cartItemsList" class="space-y-3 mb-6">
-                <!-- Cart items dynamically rendered -->
-            </div>
-
-            <div class="border-t border-cookie-200 pt-4 space-y-2 text-xs">
-                <div class="flex justify-between font-bold text-sm text-cookie-900">
-                    <span>Total do Pedido:</span>
-                    <span id="cartTotalDisplay" class="text-sage-800">R$ 0,00</span>
-                </div>
-                <p class="text-[11px] text-gray-500">
-                    <i class="fa-solid fa-circle-info text-cookie-700 mr-1"></i> 
-                    Ao confirmar, o pedido será enviado com seus dados cadastrados.
-                </p>
-            </div>
-
-            <div class="mt-6">
-                <button id="confirmOrderBtn" onclick="submitClientOrder()" class="w-full bg-sage-800 hover:bg-sage-900 text-white font-bold text-xs py-3.5 rounded-xl shadow-lg transition flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-check"></i> Solicitar Pedido
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- CUSTOM TOAST NOTIFICATION -->
-    <div id="toastNotification" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-cookie-900 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-cookie-700">
-        <i class="fa-solid fa-circle-check text-sage-300 text-lg" id="toastIcon"></i>
-        <span class="text-xs font-semibold" id="toastMessage">Notificação</span>
-    </div>
-
-
-    <!-- ==================== JAVASCRIPT LOGIC ==================== -->
-    <script>
-        /* ================= INITIAL DEFAULT DATA ================= */
-        const DEFAULT_PRODUCTS = [
-            {
-                id: "prod-1",
-                name: "Cookie Tradicional Gotas de Chocolate",
-                desc: "Massa crocante por fora e macia por dentro com abundantes gotas de chocolate ao leite e meio amargo nobre.",
-                price: 12.00,
-                cost: 4.50,
-                stock: 35,
-                img: "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=600&q=80"
-            },
-            {
-                id: "prod-2",
-                name: "Cookie Red Velvet com Chocolate Branco",
-                desc: "Massa aveludada sabor baunilha e cacau na cor red velvet recheada com Gotas de chocolate branco cremoso.",
-                price: 14.00,
-                cost: 5.20,
-                stock: 25,
-                img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=600&q=80"
-            },
-            {
-                id: "prod-3",
-                name: "Cookie Ninho com Nutella",
-                desc: "Massa de Leite Ninho especial recheada com um coração generoso de Nutella pura e cremosa.",
-                price: 15.00,
-                cost: 5.80,
-                stock: 20,
-                img: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=600&q=80"
-            },
-            {
-                id: "prod-4",
-                name: "Cookie de Pistache com Chocolate Branco",
-                desc: "Massa artesanal elaborada com pasta pura de pistache, pedaços de pistache americano e chocolate branco.",
-                price: 18.00,
-                cost: 7.50,
-                stock: 15,
-                img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=600&q=80"
-            }
-        ];
-
-        const DEFAULT_BATCH_DATE = (() => {
-            const nextSaturday = new Date();
-            nextSaturday.setDate(nextSaturday.getDate() + (6 - nextSaturday.getDay() + 7) % 7);
-            nextSaturday.setHours(15, 0, 0, 0);
-            return nextSaturday.toISOString().slice(0, 16);
-        })();
-
-        /* ================= APP STATE ================= */
-        let currentRole = 'client'; // 'client' or 'seller'
-        let currentTab = 'home';
-        let currentUser = null; // { name, email, phone }
-        let products = [];
-        let orders = [];
-        let batchDateTime = DEFAULT_BATCH_DATE;
-        let cart = {}; // { productId: count }
-        let chartInstance = null;
-
-        /* ================= LOCAL STORAGE HELPERS ================= */
-        function loadState() {
-            const storedUser = localStorage.getItem('leidy_user');
-            if (storedUser) currentUser = JSON.parse(storedUser);
-
-            const storedProducts = localStorage.getItem('leidy_products');
-            products = storedProducts ? JSON.parse(storedProducts) : DEFAULT_PRODUCTS;
-
-            const storedBatch = localStorage.getItem('leidy_batch_date');
-            batchDateTime = storedBatch || DEFAULT_BATCH_DATE;
-
-            const storedOrders = localStorage.getItem('leidy_orders');
-            orders = storedOrders ? JSON.parse(storedOrders) : [
-                {
-                    id: "ORD-101",
-                    clientName: "Ana Clara Souza",
-                    clientEmail: "anaclara@gmail.com",
-                    clientPhone: "(11) 98888-7777",
-                    items: [
-                        { productId: "prod-1", name: "Cookie Tradicional Gotas de Chocolate", qty: 2, price: 12.00, cost: 4.50 },
-                        { productId: "prod-3", name: "Cookie Ninho com Nutella", qty: 1, price: 15.00, cost: 5.80 }
-                    ],
-                    total: 39.00,
-                    status: "Confirmado",
-                    createdAt: new Date().toISOString()
-                }
-            ];
+        :root {
+            --primary: #2E5A44;
+            --primary-light: #4A7C59;
+            --primary-dark: #1C3B2B;
+            --accent: #8B5A2B;
+            --accent-light: #D2B48C;
+            --bg-light: #F8F5F0;
+            --card-bg: #FFFFFF;
+            --text-dark: #2B2625;
+            --text-muted: #6B6563;
+            --border-color: #E2D9CF;
+            --danger: #A94442;
+            --success: #2E5A44;
         }
 
-        function saveProducts() {
-            localStorage.setItem('leidy_products', JSON.stringify(products));
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
-        function saveOrders() {
-            localStorage.setItem('leidy_orders', JSON.stringify(orders));
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        function saveBatchDateState() {
-            localStorage.setItem('leidy_batch_date', batchDateTime);
+        /* LOGO & HEADER */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        function saveUserState() {
-            if (currentUser) {
-                localStorage.setItem('leidy_user', JSON.stringify(currentUser));
-            } else {
-                localStorage.removeItem('leidy_user');
-            }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        /* ================= INITIALIZATION ================= */
-        window.onload = function() {
-            loadState();
-            setupCurrentDate();
-            updateRoleUI();
-            updateBatchDisplay();
-            renderProducts();
-            renderSellerProductsTable();
-            renderSellerOrders();
-            renderClientOrders();
-            updateCartBadge();
-            initChart();
-        };
-
-        function setupCurrentDate() {
-            const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const formatted = now.toLocaleDateString('pt-BR', options);
-            document.getElementById('currentDateDisplay').textContent = formatted.charAt(0).toUpperCase() + formatted.slice(1);
+        .logo-svg {
+            width: 42px;
+            height: 42px;
+            fill: none;
         }
 
-        /* ================= ROLE & NAVIGATION LOGIC ================= */
-        function toggleRoleModal() {
-            document.getElementById('roleModal').classList.remove('hidden');
+        .brand-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #FFF;
         }
 
-        function closeRoleModal() {
-            document.getElementById('roleModal').classList.add('hidden');
+        .role-switcher {
+            display: flex;
+            background: rgba(0,0,0,0.2);
+            padding: 4px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
-        function selectRole(role) {
-            currentRole = role;
-            closeRoleModal();
-            updateRoleUI();
-            if (role === 'seller') {
-                switchTab('seller-dashboard');
-                showToast("Modo Vendedor Ativado", "fa-store");
-            } else {
-                switchTab('home');
-                showToast("Modo Cliente Ativado", "fa-user");
-            }
+        .role-btn {
+            background: transparent;
+            border: none;
+            color: rgba(255,255,255,0.8);
+            padding: 6px 14px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
-        function updateRoleUI() {
-            const roleLabel = document.getElementById('roleLabel');
-            const roleIcon = document.getElementById('roleIcon');
-            const userNavBtnText = document.getElementById('userNavBtnText');
-            const navTabsContainer = document.getElementById('navTabsContainer');
-
-            if (currentRole === 'seller') {
-                roleLabel.textContent = "Visão Vendedor";
-                roleIcon.className = "fa-solid fa-store text-cookie-300 mr-1.5";
-                userNavBtnText.textContent = "Modo Vendedor";
-
-                navTabsContainer.innerHTML = `
-                    <button onclick="switchTab('seller-dashboard')" id="tab-btn-seller-dashboard" class="px-3.5 py-1.5 rounded-lg text-cookie-100 hover:bg-sage-800 transition flex items-center gap-1.5 whitespace-nowrap">
-                        <i class="fa-solid fa-chart-pie"></i> Painel de Lucro
-                    </button>
-                    <button onclick="switchTab('seller-products')" id="tab-btn-seller-products" class="px-3.5 py-1.5 rounded-lg text-cookie-100 hover:bg-sage-800 transition flex items-center gap-1.5 whitespace-nowrap">
-                        <i class="fa-solid fa-cookie-bite"></i> Fornada & Produtos
-                    </button>
-                    <button onclick="switchTab('seller-orders')" id="tab-btn-seller-orders" class="px-3.5 py-1.5 rounded-lg text-cookie-100 hover:bg-sage-800 transition flex items-center gap-1.5 whitespace-nowrap">
-                        <i class="fa-solid fa-list-check"></i> Pedidos Recebidos
-                    </button>
-                `;
-            } else {
-                roleLabel.textContent = currentUser ? `Cliente: ${currentUser.name.split(' ')[0]}` : "Modo Cliente";
-                roleIcon.className = "fa-solid fa-user text-sage-300 mr-1.5";
-                userNavBtnText.textContent = currentUser ? currentUser.name.split(' ')[0] : "Trocar Acesso";
-
-                navTabsContainer.innerHTML = `
-                    <button onclick="switchTab('home')" id="tab-btn-home" class="px-3.5 py-1.5 rounded-lg text-cookie-100 hover:bg-sage-800 transition flex items-center gap-1.5 whitespace-nowrap">
-                        <i class="fa-solid fa-house"></i> Início
-                    </button>
-                    <button onclick="switchTab('cardapio')" id="tab-btn-cardapio" class="px-3.5 py-1.5 rounded-lg text-cookie-100 hover:bg-sage-800 transition flex items-center gap-1.5 whitespace-nowrap">
-                        <i class="fa-solid fa-cookie"></i> Cardápio
-                    </button>
-                    <button onclick="switchTab('meus-pedidos')" id="tab-btn-meus-pedidos" class="px-3.5 py-1.5 rounded-lg text-cookie-100 hover:bg-sage-800 transition flex items-center gap-1.5 whitespace-nowrap">
-                        <i class="fa-solid fa-receipt"></i> Meus Pedidos
-                    </button>
-                `;
-            }
-
-            updateClientGreeting();
+        .role-btn.active {
+            background: var(--card-bg);
+            color: var(--primary);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
         }
 
-        function switchTab(tabId) {
-            currentTab = tabId;
-
-            // Hide all tab views
-            const views = ['home', 'cardapio', 'meus-pedidos', 'seller-dashboard', 'seller-products', 'seller-orders'];
-            views.forEach(v => {
-                const el = document.getElementById(`view-${v}`);
-                if (el) el.classList.add('hidden');
-            });
-
-            // Show selected view
-            const targetView = document.getElementById(`view-${tabId}`);
-            if (targetView) targetView.classList.remove('hidden');
-
-            // Highlight nav button
-            const navButtons = document.querySelectorAll('#navTabsContainer button');
-            navButtons.forEach(btn => {
-                btn.classList.remove('bg-sage-700', 'font-bold', 'text-white');
-                btn.classList.add('text-cookie-100');
-            });
-
-            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
-            if (activeBtn) {
-                activeBtn.classList.add('bg-sage-700', 'font-bold', 'text-white');
-            }
-
-            if (tabId === 'seller-dashboard') {
-                updateAnalytics();
-            }
+        /* NAVIGATION BAR */
+        nav {
+            background: #FFF;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 0 1rem;
         }
 
-        /* ================= CLIENT AUTHENTICATION LOGIC ================= */
-        function updateClientGreeting() {
-            const greetingEl = document.getElementById('clientGreeting');
-            const noticeEl = document.getElementById('clientAuthNotice');
-
-            if (currentUser) {
-                greetingEl.textContent = `Olá, ${currentUser.name}!`;
-                if (noticeEl) noticeEl.classList.add('hidden');
-            } else {
-                greetingEl.textContent = `Olá, Visitante!`;
-                if (noticeEl) noticeEl.classList.remove('hidden');
-            }
+        .nav-link {
+            padding: 1rem 1.2rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        function openClientAuthModal() {
-            if (currentUser) {
-                document.getElementById('clientNameInput').value = currentUser.name || '';
-                document.getElementById('clientEmailInput').value = currentUser.email || '';
-                document.getElementById('clientPhoneInput').value = currentUser.phone || '';
-            }
-            document.getElementById('clientAuthModal').classList.remove('hidden');
+        .nav-link.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
         }
 
-        function closeClientAuthModal() {
-            document.getElementById('clientAuthModal').classList.add('hidden');
+        /* MAIN CONTAINER */
+        main {
+            max-width: 1000px;
+            width: 100%;
+            margin: 1.5rem auto;
+            padding: 0 1rem;
+            flex: 1;
         }
 
-        function handleClientRegister(e) {
-            e.preventDefault();
-            const name = document.getElementById('clientNameInput').value.trim();
-            const email = document.getElementById('clientEmailInput').value.trim();
-            const phone = document.getElementById('clientPhoneInput').value.trim();
-
-            if (!name || !email || !phone) {
-                showToast("Por favor, preencha todos os campos.", "fa-triangle-exclamation");
-                return;
-            }
-
-            currentUser = { name, email, phone };
-            saveUserState();
-            updateRoleUI();
-            closeClientAuthModal();
-            showToast(`Bem-vindo(a), ${name.split(' ')[0]}!`, "fa-circle-check");
-            renderClientOrders();
+        .section-page {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
         }
 
-        /* ================= BATCH DATE MANAGEMENT ================= */
-        function formatBatchDateTime(isoString) {
-            if (!isoString) return "--/--/---- às --:--";
-            const dateObj = new Date(isoString);
-            const day = String(dateObj.getDate()).padStart(2, '0');
-            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-            const year = dateObj.getFullYear();
-            const hours = String(dateObj.getHours()).padStart(2, '0');
-            const minutes = String(dateObj.getMinutes()).padStart(2, '0');
-            return `${day}/${month}/${year} às ${hours}:${minutes}`;
+        .section-page.active {
+            display: block;
         }
 
-        function updateBatchDisplay() {
-            const formatted = formatBatchDateTime(batchDateTime);
-            document.getElementById('nextBatchDateBanner').textContent = formatted;
-            document.getElementById('cardapioBatchDate').textContent = formatted;
-            document.getElementById('sellerDashboardBatchDate').textContent = formatted;
-            document.getElementById('batchDateTimeInput').value = batchDateTime;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        function saveBatchDate(e) {
-            e.preventDefault();
-            const val = document.getElementById('batchDateTimeInput').value;
-            if (!val) return;
-            batchDateTime = val;
-            saveBatchDateState();
-            updateBatchDisplay();
-            showToast("Data da próxima fornada atualizada!", "fa-calendar-check");
+        /* CARDS & CONTAINERS */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            border: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
         }
 
-        /* ================= PRODUCTS & CARDÁPIO LOGIC ================= */
-        function renderProducts() {
-            const grid = document.getElementById('clientProductsGrid');
-            grid.innerHTML = '';
-
-            products.forEach(p => {
-                const isOutOfStock = p.stock <= 0;
-                const card = document.createElement('div');
-                card.className = "bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md border border-cookie-200/80 transition flex flex-col justify-between";
-                
-                card.innerHTML = `
-                    <div>
-                        <div class="relative h-48 bg-cookie-100 overflow-hidden">
-                            <img src="${p.img || 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=600&q=80'}" alt="${p.name}" class="w-full h-full object-cover">
-                            <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-black text-cookie-900 shadow">
-                                R$ ${p.price.toFixed(2).replace('.', ',')}
-                            </div>
-                            ${isOutOfStock ? `
-                                <div class="absolute inset-0 bg-black/60 backdrop-blur-[2px] flex items-center justify-center">
-                                    <span class="bg-red-600 text-white font-black text-xs px-4 py-1.5 rounded-full uppercase tracking-wider">Esgotado</span>
-                                </div>
-                            ` : ''}
-                        </div>
-                        <div class="p-5">
-                            <div class="flex items-center justify-between gap-2 mb-1">
-                                <h3 class="font-extrabold text-cookie-900 text-base leading-snug">${p.name}</h3>
-                            </div>
-                            <p class="text-xs text-gray-600 line-clamp-2 leading-relaxed mb-3">${p.desc}</p>
-                            <div class="text-[11px] font-semibold ${isOutOfStock ? 'text-red-500' : 'text-sage-800'}">
-                                <i class="fa-solid fa-boxes-stacked mr-1"></i> ${isOutOfStock ? 'Nenhum disponível' : `${p.stock} disponíveis nesta fornada`}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-5 pt-0">
-                        <button onclick="addToCart('${p.id}')" ${isOutOfStock ? 'disabled' : ''} class="w-full ${isOutOfStock ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-cookie-700 hover:bg-cookie-800 text-white'} text-xs font-bold py-3 rounded-xl shadow transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-plus"></i> Adicionar à Sacola
-                        </button>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
+        /* BANNER PRÓXIMA FORNADA */
+        .fornada-banner {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(46, 90, 68, 0.2);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2rem;
         }
 
-        /* ================= CART & CHECKOUT LOGIC ================= */
-        function addToCart(productId) {
-            const prod = products.find(p => p.id === productId);
-            if (!prod || prod.stock <= 0) return;
-
-            const currentQty = cart[productId] || 0;
-            if (currentQty >= prod.stock) {
-                showToast(`Quantidade máxima disponível (${prod.stock}) atingida.`, "fa-triangle-exclamation");
-                return;
-            }
-
-            cart[productId] = currentQty + 1;
-            updateCartBadge();
-            showToast(`${prod.name} adicionado!`, "fa-cookie-bite");
+        .fornada-banner::before {
+            content: '🍪';
+            position: absolute;
+            font-size: 10rem;
+            right: -20px;
+            bottom: -30px;
+            opacity: 0.1;
         }
 
-        function updateCartBadge() {
-            const totalItems = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
-            document.getElementById('cartCountBadge').textContent = totalItems;
+        .user-welcome {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
         }
 
-        function openCartModal() {
-            renderCartItems();
-            document.getElementById('cartModal').classList.remove('hidden');
+        .today-date {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+            text-transform: capitalize;
         }
 
-        function closeCartModal() {
-            document.getElementById('cartModal').classList.add('hidden');
+        .fornada-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            color: var(--accent-light);
+            margin-bottom: 0.5rem;
         }
 
-        function changeCartQty(productId, delta) {
-            const prod = products.find(p => p.id === productId);
-            if (!prod) return;
-
-            const newQty = (cart[productId] || 0) + delta;
-            if (newQty <= 0) {
-                delete cart[productId];
-            } else if (newQty > prod.stock) {
-                showToast(`Limite do estoque disponível (${prod.stock})`, "fa-triangle-exclamation");
-                return;
-            } else {
-                cart[productId] = newQty;
-            }
-
-            updateCartBadge();
-            renderCartItems();
+        .fornada-date-big {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 1rem;
+            line-height: 1.1;
         }
 
-        function renderCartItems() {
-            const container = document.getElementById('cartItemsList');
-            container.innerHTML = '';
-
-            const keys = Object.keys(cart);
-            if (keys.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-8 text-gray-400">
-                        <i class="fa-solid fa-basket-shopping text-4xl mb-2"></i>
-                        <p class="text-xs font-semibold">Sua sacola está vazia.</p>
-                    </div>
-                `;
-                document.getElementById('cartTotalDisplay').textContent = "R$ 0,00";
-                return;
-            }
-
-            let total = 0;
-
-            keys.forEach(id => {
-                const prod = products.find(p => p.id === id);
-                if (!prod) return;
-
-                const qty = cart[id];
-                const itemTotal = prod.price * qty;
-                total += itemTotal;
-
-                const itemRow = document.createElement('div');
-                itemRow.className = "flex items-center justify-between bg-cookie-50 p-3 rounded-2xl border border-cookie-200/60";
-                itemRow.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <img src="${prod.img}" class="w-10 h-10 rounded-xl object-cover">
-                        <div>
-                            <h4 class="font-bold text-cookie-900 text-xs">${prod.name}</h4>
-                            <p class="text-[11px] text-gray-500">R$ ${prod.price.toFixed(2).replace('.', ',')} un</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <div class="flex items-center bg-white rounded-lg border border-cookie-300">
-                            <button onclick="changeCartQty('${id}', -1)" class="px-2 py-0.5 text-xs text-cookie-900 font-bold hover:bg-cookie-100 rounded-l-lg">-</button>
-                            <span class="px-2 text-xs font-extrabold">${qty}</span>
-                            <button onclick="changeCartQty('${id}', 1)" class="px-2 py-0.5 text-xs text-cookie-900 font-bold hover:bg-cookie-100 rounded-r-lg">+</button>
-                        </div>
-                        <div class="font-extrabold text-xs text-cookie-900 min-w-[60px] text-right">
-                            R$ ${itemTotal.toFixed(2).replace('.', ',')}
-                        </div>
-                    </div>
-                `;
-                container.appendChild(itemRow);
-            });
-
-            document.getElementById('cartTotalDisplay').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        .countdown-box {
+            display: inline-flex;
+            gap: 1rem;
+            background: rgba(0,0,0,0.2);
+            padding: 0.75rem 1.5rem;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
         }
 
-        function submitClientOrder() {
-            if (Object.keys(cart).length === 0) {
-                showToast("Adicione itens à sacola primeiro.", "fa-basket-shopping");
-                return;
-            }
-
-            if (!currentUser) {
-                closeCartModal();
-                openClientAuthModal();
-                showToast("Cadastre-se primeiro para realizar o pedido.", "fa-address-card");
-                return;
-            }
-
-            const items = [];
-            let totalCost = 0;
-            let totalPrice = 0;
-
-            for (let id in cart) {
-                const prod = products.find(p => p.id === id);
-                const qty = cart[id];
-                if (prod) {
-                    items.push({
-                        productId: prod.id,
-                        name: prod.name,
-                        qty: qty,
-                        price: prod.price,
-                        cost: prod.cost
-                    });
-                    totalPrice += prod.price * qty;
-                    totalCost += prod.cost * qty;
-
-                    // Deduct stock
-                    prod.stock -= qty;
-                }
-            }
-
-            const newOrder = {
-                id: `ORD-${Math.floor(1000 + Math.random() * 9000)}`,
-                clientName: currentUser.name,
-                clientEmail: currentUser.email,
-                clientPhone: currentUser.phone,
-                items: items,
-                total: totalPrice,
-                costTotal: totalCost,
-                status: "Pendente",
-                createdAt: new Date().toISOString()
-            };
-
-            orders.unshift(newOrder);
-            saveOrders();
-            saveProducts();
-
-            cart = {};
-            updateCartBadge();
-            renderProducts();
-            renderSellerProductsTable();
-            renderSellerOrders();
-            renderClientOrders();
-            closeCartModal();
-
-            showToast("Solicitação enviada com sucesso!", "fa-circle-check");
-            switchTab('meus-pedidos');
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        function renderClientOrders() {
-            const container = document.getElementById('clientOrdersList');
-            container.innerHTML = '';
-
-            if (!currentUser) {
-                container.innerHTML = `
-                    <div class="bg-white rounded-2xl p-8 text-center border border-cookie-200">
-                        <i class="fa-solid fa-user-lock text-3xl text-cookie-300 mb-2"></i>
-                        <h4 class="font-bold text-cookie-900 text-sm">Acesso não identificado</h4>
-                        <p class="text-xs text-gray-500 mt-1 mb-4">Cadastre-se para acompanhar suas solicitações de fornada.</p>
-                        <button onclick="openClientAuthModal()" class="bg-sage-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow">
-                            Realizar Cadastro Simples
-                        </button>
-                    </div>
-                `;
-                return;
-            }
-
-            const myOrders = orders.filter(o => o.clientEmail.toLowerCase() === currentUser.email.toLowerCase());
-
-            if (myOrders.length === 0) {
-                container.innerHTML = `
-                    <div class="bg-white rounded-2xl p-8 text-center border border-cookie-200 text-gray-400">
-                        <i class="fa-solid fa-receipt text-3xl mb-2"></i>
-                        <p class="text-xs font-semibold">Você ainda não tem solicitações registradas.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            myOrders.forEach(ord => {
-                const dateStr = new Date(ord.createdAt).toLocaleDateString('pt-BR');
-                const badgeColor = {
-                    'Pendente': 'bg-amber-100 text-amber-800 border-amber-300',
-                    'Confirmado': 'bg-sage-100 text-sage-800 border-sage-300',
-                    'Entregue': 'bg-blue-100 text-blue-800 border-blue-300',
-                    'Cancelado': 'bg-red-100 text-red-800 border-red-300'
-                }[ord.status] || 'bg-gray-100 text-gray-800';
-
-                const card = document.createElement('div');
-                card.className = "bg-white p-5 rounded-2xl border border-cookie-200/80 shadow-sm space-y-3";
-                
-                let itemsHtml = ord.items.map(i => `<li class="flex justify-between text-xs text-gray-700"><span>• ${i.name} (${i.qty}x)</span><span>R$ ${(i.price * i.qty).toFixed(2).replace('.', ',')}</span></li>`).join('');
-
-                card.innerHTML = `
-                    <div class="flex justify-between items-start border-b border-cookie-100 pb-3">
-                        <div>
-                            <span class="text-xs font-black text-cookie-900">Pedido ${ord.id}</span>
-                            <span class="text-[11px] text-gray-400 ml-2">Solicitado em ${dateStr}</span>
-                        </div>
-                        <span class="text-[11px] font-bold px-3 py-0.5 rounded-full border ${badgeColor}">
-                            ${ord.status}
-                        </span>
-                    </div>
-                    <ul class="space-y-1">
-                        ${itemsHtml}
-                    </ul>
-                    <div class="border-t border-cookie-100 pt-3 flex justify-between items-center text-xs">
-                        <span class="font-bold text-gray-600">Total do Pedido:</span>
-                        <span class="font-black text-cookie-900 text-sm">R$ ${ord.total.toFixed(2).replace('.', ',')}</span>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
+        .countdown-val {
+            font-weight: 800;
+            font-size: 1.2rem;
         }
 
-
-        /* ================= SELLER PRODUCT MANAGEMENT ================= */
-        function renderSellerProductsTable() {
-            const tbody = document.getElementById('sellerProductsTableBody');
-            tbody.innerHTML = '';
-
-            products.forEach(p => {
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-cookie-50/50 transition";
-                tr.innerHTML = `
-                    <td class="p-4 font-bold flex items-center gap-3">
-                        <img src="${p.img}" class="w-10 h-10 rounded-xl object-cover border border-cookie-200">
-                        <div>
-                            <div class="text-cookie-900 font-extrabold">${p.name}</div>
-                            <div class="text-[11px] text-gray-400 font-normal line-clamp-1">${p.desc}</div>
-                        </div>
-                    </td>
-                    <td class="p-4 font-bold text-sage-800">R$ ${p.price.toFixed(2).replace('.', ',')}</td>
-                    <td class="p-4 font-semibold text-amber-800">R$ ${p.cost.toFixed(2).replace('.', ',')}</td>
-                    <td class="p-4 font-extrabold ${p.stock <= 5 ? 'text-red-600' : 'text-cookie-900'}">${p.stock} un</td>
-                    <td class="p-4 text-center">
-                        <div class="flex items-center justify-center gap-2">
-                            <button onclick="editProduct('${p.id}')" class="p-2 bg-cookie-100 hover:bg-cookie-200 text-cookie-800 rounded-lg transition" title="Editar">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                            <button onclick="deleteProduct('${p.id}')" class="p-2 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg transition" title="Excluir">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
+        .countdown-unit {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            opacity: 0.8;
         }
 
-        function openProductModal(prodId = null) {
-            const form = document.getElementById('productForm');
-            form.reset();
-
-            if (prodId) {
-                const prod = products.find(p => p.id === prodId);
-                if (prod) {
-                    document.getElementById('productModalTitle').textContent = "Editar Cookie";
-                    document.getElementById('productIdInput').value = prod.id;
-                    document.getElementById('prodName').value = prod.name;
-                    document.getElementById('prodDesc').value = prod.desc;
-                    document.getElementById('prodPrice').value = prod.price;
-                    document.getElementById('prodCost').value = prod.cost;
-                    document.getElementById('prodStock').value = prod.stock;
-                    document.getElementById('prodImg').value = prod.img;
-                }
-            } else {
-                document.getElementById('productModalTitle').textContent = "Cadastrar Novo Cookie";
-                document.getElementById('productIdInput').value = "";
-            }
-
-            document.getElementById('productModal').classList.remove('hidden');
+        /* PRODUCTS GRID */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
         }
 
-        function closeProductModal() {
-            document.getElementById('productModal').classList.add('hidden');
+        .product-card {
+            background: #FFF;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s;
         }
 
-        function editProduct(id) {
-            openProductModal(id);
+        .product-card:hover {
+            transform: translateY(-4px);
         }
 
-        function deleteProduct(id) {
-            if (!confirm("Tem certeza que deseja remover este produto?")) return;
-            products = products.filter(p => p.id !== id);
-            saveProducts();
-            renderProducts();
-            renderSellerProductsTable();
-            showToast("Produto excluído.", "fa-trash");
+        .product-img {
+            height: 160px;
+            background-color: #F5EBE0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
         }
 
-        function handleProductSubmit(e) {
-            e.preventDefault();
-            const id = document.getElementById('productIdInput').value;
-            const name = document.getElementById('prodName').value.trim();
-            const desc = document.getElementById('prodDesc').value.trim();
-            const price = parseFloat(document.getElementById('prodPrice').value);
-            const cost = parseFloat(document.getElementById('prodCost').value);
-            const stock = parseInt(document.getElementById('prodStock').value);
-            let img = document.getElementById('prodImg').value.trim();
-
-            if (!img) {
-                img = "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=600&q=80";
-            }
-
-            if (id) {
-                // Update
-                const prod = products.find(p => p.id === id);
-                if (prod) {
-                    prod.name = name;
-                    prod.desc = desc;
-                    prod.price = price;
-                    prod.cost = cost;
-                    prod.stock = stock;
-                    prod.img = img;
-                }
-            } else {
-                // New
-                products.push({
-                    id: `prod-${Date.now()}`,
-                    name, desc, price, cost, stock, img
-                });
-            }
-
-            saveProducts();
-            renderProducts();
-            renderSellerProductsTable();
-            closeProductModal();
-            showToast("Produto salvo com sucesso!", "fa-circle-check");
+        .badge-stock {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255,255,255,0.9);
+            color: var(--primary-dark);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
 
-
-        /* ================= SELLER ORDERS MANAGEMENT ================= */
-        function renderSellerOrders() {
-            const container = document.getElementById('sellerOrdersContainer');
-            container.innerHTML = '';
-
-            const filterStatus = document.getElementById('sellerOrderStatusFilter').value;
-            const filteredOrders = filterStatus === 'ALL' ? orders : orders.filter(o => o.status === filterStatus);
-
-            if (filteredOrders.length === 0) {
-                container.innerHTML = `
-                    <div class="bg-white rounded-2xl p-8 text-center border border-cookie-200 text-gray-400">
-                        <i class="fa-solid fa-inbox text-3xl mb-2"></i>
-                        <p class="text-xs font-semibold">Nenhum pedido encontrado para o filtro selecionado.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            filteredOrders.forEach(ord => {
-                const dateStr = new Date(ord.createdAt).toLocaleString('pt-BR');
-                const card = document.createElement('div');
-                card.className = "bg-white p-5 rounded-2xl border border-cookie-200 shadow-sm space-y-4";
-
-                let itemsList = ord.items.map(i => `<div class="flex justify-between text-xs border-b border-gray-100 py-1"><span class="font-medium">${i.name} (x${i.qty})</span><span class="font-bold text-cookie-900">R$ ${(i.price * i.qty).toFixed(2).replace('.', ',')}</span></div>`).join('');
-
-                card.innerHTML = `
-                    <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-b border-cookie-100 pb-3">
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <span class="font-black text-cookie-900 text-sm">${ord.id}</span>
-                                <span class="text-xs text-gray-500">• ${dateStr}</span>
-                            </div>
-                            <div class="text-xs font-bold text-sage-800 mt-0.5">
-                                Client: ${ord.clientName} | ${ord.clientPhone} | ${ord.clientEmail}
-                            </div>
-                        </div>
-
-                        <!-- Status Select -->
-                        <div class="flex items-center gap-2">
-                            <label class="text-xs text-gray-500 font-semibold">Status:</label>
-                            <select onchange="updateOrderStatus('${ord.id}', this.value)" class="bg-cookie-50 border border-cookie-300 text-cookie-900 text-xs font-bold rounded-xl p-2">
-                                <option value="Pendente" ${ord.status === 'Pendente' ? 'selected' : ''}>Pendente</option>
-                                <option value="Confirmado" ${ord.status === 'Confirmado' ? 'selected' : ''}>Confirmado</option>
-                                <option value="Entregue" ${ord.status === 'Entregue' ? 'selected' : ''}>Entregue</option>
-                                <option value="Cancelado" ${ord.status === 'Cancelado' ? 'selected' : ''}>Cancelado</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="space-y-1">
-                        ${itemsList}
-                    </div>
-
-                    <div class="flex justify-between items-center text-xs border-t border-cookie-100 pt-3">
-                        <a href="https://wa.me/55${ord.clientPhone.replace(/\D/g,'')}?text=Olá%20${encodeURIComponent(ord.clientName)},%20falamos%20da%20Leidy%20Cookies%20sobre%20seu%20pedido%20${ord.id}!" target="_blank" class="inline-flex items-center gap-1.5 text-sage-800 bg-sage-50 hover:bg-sage-100 px-3 py-1.5 rounded-xl border border-sage-200 font-bold">
-                            <i class="fa-brands fa-whatsapp text-green-600 text-sm"></i> Falar com Cliente
-                        </a>
-                        <div class="text-right">
-                            <span class="text-gray-500">Total Solicitado: </span>
-                            <span class="font-black text-cookie-900 text-base">R$ ${ord.total.toFixed(2).replace('.', ',')}</span>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
+        .product-details {
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
         }
 
-        function updateOrderStatus(orderId, newStatus) {
-            const ord = orders.find(o => o.id === orderId);
-            if (ord) {
-                ord.status = newStatus;
-                saveOrders();
-                renderClientOrders();
-                updateAnalytics();
-                showToast(`Status do pedido ${orderId} atualizado para ${newStatus}.`, "fa-pen-to-square");
-            }
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.3rem;
         }
 
-
-        /* ================= ANALYTICS DASHBOARD ================= */
-        function updateAnalytics() {
-            // Consider confirmed and pending orders as projected revenue
-            const validOrders = orders.filter(o => o.status !== 'Cancelado');
-
-            let revenue = 0;
-            let cost = 0;
-            let units = 0;
-            const productDemandMap = {}; // { prodName: { reservedQty, stockQty } }
-
-            // Initialize product demand map with current catalog
-            products.forEach(p => {
-                productDemandMap[p.name] = { reserved: 0, stock: p.stock, price: p.price, cost: p.cost };
-            });
-
-            validOrders.forEach(ord => {
-                revenue += ord.total;
-                ord.items.forEach(i => {
-                    units += i.qty;
-                    cost += (i.cost || 0) * i.qty;
-
-                    if (productDemandMap[i.name]) {
-                        productDemandMap[i.name].reserved += i.qty;
-                    } else {
-                        productDemandMap[i.name] = { reserved: i.qty, stock: 0, price: i.price, cost: i.cost };
-                    }
-                });
-            });
-
-            const profit = revenue - cost;
-            const margin = revenue > 0 ? ((profit / revenue) * 100).toFixed(1) : 0;
-
-            document.getElementById('metricRevenue').textContent = `R$ ${revenue.toFixed(2).replace('.', ',')}`;
-            document.getElementById('metricCost').textContent = `R$ ${cost.toFixed(2).replace('.', ',')}`;
-            document.getElementById('metricProfit').textContent = `R$ ${profit.toFixed(2).replace('.', ',')}`;
-            document.getElementById('metricMargin').textContent = `Margem de Lucro: ${margin}%`;
-            document.getElementById('metricUnits').textContent = `${units} un`;
-            document.getElementById('metricOrdersCount').textContent = `${validOrders.length} pedido(s) ativos`;
-
-            // Render Product Demand Breakdown List
-            const demandContainer = document.getElementById('analyticsProductList');
-            demandContainer.innerHTML = '';
-
-            for (let name in productDemandMap) {
-                const item = productDemandMap[name];
-                const div = document.createElement('div');
-                div.className = "p-2.5 bg-cookie-50 rounded-xl border border-cookie-200 text-xs flex justify-between items-center";
-                div.innerHTML = `
-                    <div>
-                        <div class="font-extrabold text-cookie-900">${name}</div>
-                        <div class="text-[10px] text-gray-500">Estoque restante: ${item.stock} un</div>
-                    </div>
-                    <div class="text-right font-black text-sage-800">
-                        ${item.reserved} reservado(s)
-                    </div>
-                `;
-                demandContainer.appendChild(div);
-            }
-
-            // Update Chart
-            updateChartData(productDemandMap);
+        .product-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            flex: 1;
         }
-
-        function initChart() {
-            const ctx = document.getElementById('profitChart').getContext('2d');
-            chartInstance = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: [],
-                    datasets: [
-                        {
-                            label: 'Receita Prevista (R$)',
-                            data: [],
-                            backgroundColor: '#4A7C59',
-                            borderRadius: 8,
-                        },
-                        {
-                            label: 'Custo Estimado (R$)',
-                            data: [],
-                            backgroundColor: '#D2B48C',
-                            borderRadius: 8,
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'top', labels: { font: { family: 'Plus Jakarta Sans', size: 11 } } }
-                    },
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: '#F5EBE0' } },
-                        x: { grid: { display: false } }
-                    }
-                }
-            });
-        }
-
-        function updateChartData(demandMap) {
-            if (!chartInstance) return;
-
-            const labels = [];
-            const revenueData = [];
-            const costData = [];
-
-            for (let name in demandMap) {
-                const item = demandMap[name];
-                labels.push(name.length > 15 ? name.substring(0, 15) + '...' : name);
-                revenueData.push((item.reserved * item.price) || 0);
-                costData.push((item.reserved * item.cost) || 0);
-            }
-
-            chartInstance.data.labels = labels;
-            chartInstance.data.datasets[0].data = revenueData;
-            chartInstance.data.datasets[1].data = costData;
-            chartInstance.update();
-        }
-
-
-        /* ================= UI TOAST HELPERS ================= */
-        function showToast(msg, iconClass = "fa-circle-check") {
-            const toast = document.getElementById('toastNotification');
-            const msgEl = document.getElementById('toastMessage');
-            const iconEl = document.getElementById('toastIcon');
-
-            msgEl.textContent = msg;
-            iconEl.className = `fa-solid ${iconClass} text-sage-300 text-lg`;
-
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            toast.classList.add('translate-y-0', 'opacity-100');
-
-            setTimeout(() => {
-                toast.classList.remove('translate-y-0', 'opacity-100');
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
-        }
-    </script>
-</body>
-</html>
