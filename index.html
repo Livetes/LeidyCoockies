@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leidy Cookies - Fornadas Artesanais</title>
-    <!-- Chart.js para o vendedor -->
+    <!-- Chart.js para a Visão Analítica do Vendedor -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
@@ -19,6 +19,7 @@
             --text-muted: #6B6560;
             --border-color: #E6E0D6;
             --danger: #B93838;
+            --success: #27ae60;
         }
 
         * {
@@ -36,11 +37,11 @@
             flex-direction: column;
         }
 
-        /* HEADER SUPERIOR VERDE */
+        /* CABEÇALHO SUPERIOR (IDÊNTICO À FOTO) */
         header {
             background-color: var(--primary-dark);
             color: white;
-            padding: 0.8rem 1.5rem;
+            padding: 0.9rem 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -57,15 +58,16 @@
         }
 
         .logo-circle {
-            width: 44px;
-            height: 44px;
+            width: 46px;
+            height: 46px;
             background: #F3E5D8;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             border: 2px solid #8C532B;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
 
         .brand-titles {
@@ -75,7 +77,7 @@
         }
 
         .brand-title {
-            font-size: 1.4rem;
+            font-size: 1.45rem;
             font-weight: 800;
             letter-spacing: 0.5px;
             color: #FFFFFF;
@@ -116,7 +118,7 @@
             background: var(--brown-accent);
             color: white;
             border: none;
-            padding: 7px 16px;
+            padding: 8px 16px;
             border-radius: 20px;
             font-size: 0.82rem;
             font-weight: 700;
@@ -124,21 +126,23 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            transition: background 0.2s;
+            transition: all 0.2s ease;
         }
 
         .btn-access:hover {
             background: var(--brown-hover);
+            transform: translateY(-1px);
         }
 
-        /* NAVEGAÇÃO SECUNDÁRIA ESCURA */
+        /* NAVEGAÇÃO SECUNDÁRIA (FOTO 3) */
         nav {
             background-color: #163628;
             display: flex;
             justify-content: center;
-            gap: 2rem;
+            gap: 1.5rem;
             padding: 0.75rem 1rem;
             border-top: 1px solid rgba(255,255,255,0.08);
+            flex-wrap: wrap;
         }
 
         .nav-link {
@@ -150,14 +154,15 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            padding: 4px 12px;
-            border-radius: 6px;
+            padding: 6px 14px;
+            border-radius: 8px;
             transition: all 0.2s;
+            user-select: none;
         }
 
         .nav-link:hover, .nav-link.active {
             color: #FFFFFF;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.15);
         }
 
         /* CONTAINER PRINCIPAL */
@@ -182,7 +187,7 @@
             background: var(--card-bg);
             border-radius: 16px;
             padding: 1.5rem;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04);
             border: 1px solid var(--border-color);
             margin-bottom: 1.5rem;
         }
@@ -192,7 +197,7 @@
             background: var(--primary);
             color: white;
             border-radius: 20px;
-            padding: 2.5rem 2rem;
+            padding: 2.2rem 1.8rem;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -204,22 +209,23 @@
             content: '🍪';
             position: absolute;
             right: 20px;
-            bottom: -20px;
+            bottom: -25px;
             font-size: 11rem;
             opacity: 0.12;
             pointer-events: none;
         }
 
         .welcome-title {
-            font-size: 1.25rem;
+            font-size: 1.3rem;
             font-weight: 700;
             margin-bottom: 0.2rem;
         }
 
         .welcome-date {
             font-size: 0.85rem;
-            opacity: 0.85;
+            opacity: 0.88;
             margin-bottom: 1.5rem;
+            text-transform: capitalize;
         }
 
         .banner-label {
@@ -232,7 +238,7 @@
         }
 
         .banner-date-big {
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             font-weight: 900;
             letter-spacing: -0.5px;
             margin-bottom: 1.5rem;
@@ -244,7 +250,7 @@
             background: #1C3D2F;
             padding: 0.8rem 1.8rem;
             border-radius: 35px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.12);
         }
 
         .cd-item {
@@ -265,4 +271,1064 @@
             letter-spacing: 1px;
         }
 
-        /* GRID DE PRODUTOS
+        /* GRID DE PRODUTOS */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: #FFF;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        .product-img {
+            height: 150px;
+            background-color: #F4EBE1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+        }
+
+        .badge-stock {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255,255,255,0.92);
+            color: var(--primary-dark);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .product-details {
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .product-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            flex: 1;
+            line-height: 1.4;
+        }
+
+        .product-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .product-price {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--brown-accent);
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.65rem 1.2rem;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background: #EFEBE4;
+            color: var(--text-dark);
+        }
+
+        .btn-secondary:hover {
+            background: #E2DDD4;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #992D2D;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+        }
+
+        .btn-outline:hover {
+            background: rgba(0,0,0,0.03);
+            color: var(--text-dark);
+        }
+
+        /* FORMULÁRIOS */
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            outline: none;
+            background: #FAFAFA;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            background: #FFF;
+        }
+
+        /* TABELAS */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 0.9rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: #F2ECE4;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        /* ESTATÍSTICAS (VENDEDOR) */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 14px;
+            padding: 1.2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .stat-value {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-top: 0.3rem;
+        }
+
+        /* MODAIS */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.55);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(3px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 440px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        /* ALERT CUSTOMIZADO */
+        .toast-msg {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary-dark);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 2000;
+        }
+
+        @media (max-width: 700px) {
+            header {
+                flex-direction: column;
+                gap: 10px;
+                padding: 1rem;
+            }
+            .header-controls {
+                position: static;
+                width: 100%;
+                justify-content: center;
+            }
+            .banner-date-big {
+                font-size: 1.8rem;
+            }
+            .countdown-green-box {
+                gap: 0.8rem;
+                padding: 0.6rem 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOAST DE NOTIFICAÇÃO (Substituto sem alerts) -->
+    <div id="toast-msg" class="toast-msg"></div>
+
+    <!-- TELA INICIAL DE GATEWAY / CADASTRO -->
+    <div id="screen-gate" style="display: flex; min-height: 100vh; background: var(--bg-cream); align-items: center; justify-content: center; padding: 1.5rem 1rem;">
+        <div class="card" style="max-width: 460px; width: 100%; text-align: center; padding: 2.2rem 1.8rem; border-radius: 20px;">
+            <div class="logo-circle" style="margin: 0 auto 1rem auto; width: 64px; height: 64px; font-size: 2.2rem;">🍪</div>
+            <h2 style="color: var(--primary-dark); font-size: 1.8rem; font-weight: 800;">Leidy Cookies</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.8rem;">Fornadas Artesanais sob Encomenda</p>
+
+            <form id="gate-form" onsubmit="handleGateRegister(event)" style="text-align: left;">
+                <h4 style="margin-bottom: 1rem; color: var(--primary-dark); font-size: 1.05rem;">Cadastre-se para fazer pedidos:</h4>
+                <div class="form-group">
+                    <label>Seu Nome Completo</label>
+                    <input type="text" id="gate-name" class="form-control" placeholder="Ex: Maria Silva" required>
+                </div>
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" id="gate-email" class="form-control" placeholder="maria@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>WhatsApp / Telefone</label>
+                    <input type="tel" id="gate-phone" class="form-control" placeholder="(11) 99999-9999" required>
+                </div>
+                <button type="submit" class="btn" style="width: 100%; padding: 0.85rem; font-size: 1rem; margin-top: 0.5rem; border-radius: 12px;">
+                    ✨ Cadastrar e Acessar
+                </button>
+            </form>
+
+            <div style="margin-top: 1.2rem; display: flex; flex-direction: column; gap: 0.6rem;">
+                <button onclick="enterAsGuest()" class="btn btn-outline" style="width: 100%; font-size: 0.88rem; padding: 0.65rem;">
+                    🚀 Entrar sem Cadastrar / Já sou Cliente
+                </button>
+            </div>
+
+            <hr style="margin: 1.5rem 0 1.2rem 0; border: none; border-top: 1px solid var(--border-color);">
+
+            <button onclick="openSellerLoginModal()" class="btn-access" style="margin: 0 auto; background: transparent; color: var(--text-muted); border: 1px solid var(--border-color);">
+                🔑 Sou o Vendedor / Administrador
+            </button>
+        </div>
+    </div>
+
+    <!-- APLICAÇÃO PRINCIPAL DO SITE -->
+    <div id="app-site" style="display: none;">
+        
+        <!-- CABEÇALHO SUPERIOR DA LEIDY COOKIES -->
+        <header>
+            <div class="brand-center">
+                <div class="logo-circle">🍪</div>
+                <div class="brand-titles">
+                    <div class="brand-title">Leidy <span>Cookies</span></div>
+                    <div class="brand-subtitle">FORNADAS ARTESANAIS</div>
+                </div>
+            </div>
+
+            <div class="header-controls">
+                <div class="badge-mode" id="display-mode-label">Modo Cliente</div>
+                <button class="btn-access" onclick="toggleRoleAccess()">
+                    👤 Trocar Acesso
+                </button>
+            </div>
+        </header>
+
+        <!-- NAVEGAÇÃO SECUNDÁRIA DO CLIENTE -->
+        <nav id="nav-client">
+            <a class="nav-link active" onclick="switchClientTab('tab-home', this)">🏠 Início</a>
+            <a class="nav-link" onclick="switchClientTab('tab-products', this)">🍪 Cardápio</a>
+            <a class="nav-link" onclick="switchClientTab('tab-orders', this)">🧾 Meus Pedidos</a>
+        </nav>
+
+        <!-- NAVEGAÇÃO SECUNDÁRIA DO VENDEDOR -->
+        <nav id="nav-seller" style="display: none;">
+            <a class="nav-link active" onclick="switchSellerTab('tab-dash', this)">📊 Visão Analítica</a>
+            <a class="nav-link" onclick="switchSellerTab('tab-manage-products', this)">🍪 Produtos & Preços</a>
+            <a class="nav-link" onclick="switchSellerTab('tab-seller-orders', this)">📦 Pedidos Recebidos</a>
+            <a class="nav-link" onclick="switchSellerTab('tab-config', this)">📅 Próxima Fornada</a>
+        </nav>
+
+        <main>
+            <!-- CLIENTE: INÍCIO -->
+            <section id="tab-home" class="section-page active">
+                
+                <!-- BANNER DA FORNADA VERDE (ESTILO FOTO 2) -->
+                <div class="fornada-banner-green">
+                    <div class="welcome-title" id="display-welcome-name">Olá, Visitante!</div>
+                    <div class="welcome-date" id="display-today-str">Hoje é --</div>
+
+                    <div class="banner-label">PRÓXIMA FORNADA ESPECIAL</div>
+                    <div class="banner-date-big" id="display-fornada-str">--/--/----, --:--</div>
+
+                    <div class="countdown-green-box">
+                        <div class="cd-item"><span class="cd-val" id="cd-days">00</span><span class="cd-unit">DIAS</span></div>
+                        <div class="cd-item"><span class="cd-val" id="cd-hours">00</span><span class="cd-unit">HORAS</span></div>
+                        <div class="cd-item"><span class="cd-val" id="cd-min">00</span><span class="cd-unit">MIN</span></div>
+                    </div>
+                </div>
+
+                <!-- CARD DE PROFILE / DADOS DO CLIENTE -->
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3 style="color: var(--primary-dark);">Seus Dados Salvos</h3>
+                        <button class="btn btn-outline" style="padding: 4px 10px; font-size: 0.8rem;" onclick="openEditProfileModal()">✏️ Editar Perfil</button>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; font-size: 0.95rem;">
+                        <div><b>Nome:</b> <span id="info-client-name">Não cadastrado</span></div>
+                        <div><b>E-mail:</b> <span id="info-client-email">--</span></div>
+                        <div><b>WhatsApp:</b> <span id="info-client-phone">--</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CLIENTE: CARDÁPIO DE COOKIES -->
+            <section id="tab-products" class="section-page">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h2 style="color: var(--primary-dark);">Cardápio de Cookies</h2>
+                    <span style="font-size: 0.9rem; color: var(--text-muted);">Escolha seus favoritos</span>
+                </div>
+                <div class="products-grid" id="client-products-grid"></div>
+            </section>
+
+            <!-- CLIENTE: MEUS PEDIDOS -->
+            <section id="tab-orders" class="section-page">
+                <h2 style="margin-bottom: 1.5rem; color: var(--primary-dark);">Meus Pedidos Realizados</h2>
+                <div class="card">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Produto</th>
+                                    <th>Qtd</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="client-orders-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VENDEDOR: PAINEL ANALÍTICO -->
+            <section id="tab-dash" class="section-page">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h2 style="color: var(--primary-dark);">Visão Analítica de Vendas</h2>
+                    <button class="btn btn-danger" onclick="logoutSeller()" style="padding: 0.4rem 0.9rem; font-size: 0.85rem;">Sair do Painel</button>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Faturamento Previsto</div>
+                        <div class="stat-value" id="stat-revenue">R$ 0,00</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Custo Total de Produção</div>
+                        <div class="stat-value" style="color: var(--brown-accent);" id="stat-cost">R$ 0,00</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Lucro Líquido Previsto</div>
+                        <div class="stat-value" style="color: var(--success);" id="stat-profit">R$ 0,00</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Margem de Lucro</div>
+                        <div class="stat-value" style="color: #8e44ad;" id="stat-margin">0%</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 style="margin-bottom: 1rem; color: var(--primary-dark);">Comparativo Financeiro</h3>
+                    <div style="position: relative; height: 280px;">
+                        <canvas id="profitChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VENDEDOR: PRODUTOS & PREÇOS -->
+            <section id="tab-manage-products" class="section-page">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h2 style="color: var(--primary-dark);">Produtos & Preços</h2>
+                    <button class="btn" onclick="openAddProductModal()">+ Novo Cookie</button>
+                </div>
+                <div class="card">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Cookie</th>
+                                    <th>Preço Venda</th>
+                                    <th>Custo Unit.</th>
+                                    <th>Estoque</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="seller-products-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VENDEDOR: PEDIDOS RECEBIDOS -->
+            <section id="tab-seller-orders" class="section-page">
+                <h2 style="margin-bottom: 1.5rem; color: var(--primary-dark);">Pedidos dos Clientes</h2>
+                <div class="card">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Contato</th>
+                                    <th>Produto</th>
+                                    <th>Qtd</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="seller-orders-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VENDEDOR: AGENDAR FORNADA -->
+            <section id="tab-config" class="section-page">
+                <h2 style="margin-bottom: 1.5rem; color: var(--primary-dark);">Agendar Próxima Fornada</h2>
+                <div class="card" style="max-width: 500px;">
+                    <form onsubmit="saveFornadaDate(event)">
+                        <div class="form-group">
+                            <label>Data e Hora da Próxima Fornada</label>
+                            <input type="datetime-local" id="input-fornada-date" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn">Salvar Data</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODAL DE PEDIDO/COMPRA DO CLIENTE -->
+    <div class="modal" id="modal-buy">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 1rem; color: var(--primary-dark);" id="buy-modal-title">Fazer Pedido</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;" id="buy-modal-desc"></p>
+            <form onsubmit="confirmOrder(event)">
+                <input type="hidden" id="buy-product-id">
+                <div class="form-group">
+                    <label>Quantidade desejada</label>
+                    <input type="number" id="buy-quantity" class="form-control" min="1" value="1" oninput="updateBuyTotal()" required>
+                </div>
+                <div style="font-size: 1.15rem; font-weight: 800; margin-bottom: 1.5rem; color: var(--brown-accent);">
+                    Total: R$ <span id="buy-total-price">0,00</span>
+                </div>
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modal-buy')">Cancelar</button>
+                    <button type="submit" class="btn">Confirmar Pedido</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL NOVO/EDITAR PRODUTO (VENDEDOR) -->
+    <div class="modal" id="modal-product">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 1rem; color: var(--primary-dark);" id="prod-modal-title">Novo Cookie</h3>
+            <form onsubmit="saveProduct(event)">
+                <input type="hidden" id="prod-id">
+                <div class="form-group">
+                    <label>Nome do Cookie</label>
+                    <input type="text" id="prod-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Descrição</label>
+                    <input type="text" id="prod-desc" class="form-control" required>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                    <div class="form-group">
+                        <label>Preço Venda (R$)</label>
+                        <input type="number" step="0.01" id="prod-price" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Custo Unit. (R$)</label>
+                        <input type="number" step="0.01" id="prod-cost" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Estoque Disponível</label>
+                    <input type="number" id="prod-stock" class="form-control" required>
+                </div>
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modal-product')">Cancelar</button>
+                    <button type="submit" class="btn">Salvar Produto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL LOGIN VENDEDOR -->
+    <div class="modal" id="modal-seller-login">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 0.5rem; color: var(--primary-dark);">Acesso do Vendedor</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Digite as credenciais para gerenciar a loja.</p>
+            <form onsubmit="handleSellerLogin(event)">
+                <div class="form-group">
+                    <label>Usuário</label>
+                    <input type="text" id="seller-user" class="form-control" placeholder="admin" required>
+                </div>
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input type="password" id="seller-pass" class="form-control" placeholder="••••••••" required>
+                </div>
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modal-seller-login')">Cancelar</button>
+                    <button type="submit" class="btn">Entrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL EDITAR PROFILE DO CLIENTE -->
+    <div class="modal" id="modal-edit-profile">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 1rem; color: var(--primary-dark);">Editar Meus Dados</h3>
+            <form onsubmit="saveProfileChanges(event)">
+                <div class="form-group">
+                    <label>Nome Completo</label>
+                    <input type="text" id="edit-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" id="edit-email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>WhatsApp / Contato</label>
+                    <input type="tel" id="edit-phone" class="form-control" required>
+                </div>
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modal-edit-profile')">Cancelar</button>
+                    <button type="submit" class="btn">Salvar Dados</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- LÓGICA JAVASCRIPT CORRIGIDA E SEM BUGS DE TRAVAMENTO -->
+    <script>
+        const DEFAULT_PRODUCTS = [
+            { id: 1, name: 'Cookie Tradicional', desc: 'Massa amanteigada clássica com gotas de chocolate nobre.', price: 10.00, cost: 3.50, stock: 30, emoji: '🍪' },
+            { id: 2, name: 'Cookie Red Velvet', desc: 'Massa vermelha de cacau com recheio cremoso de ninho.', price: 12.00, cost: 4.20, stock: 20, emoji: '🔴' },
+            { id: 3, name: 'Cookie Nutella', desc: 'Massa de cacau recheada com pura Nutella.', price: 14.00, cost: 5.00, stock: 15, emoji: '🍫' }
+        ];
+
+        let state = {
+            role: 'client',
+            isSellerAuthenticated: false,
+            fornadaDate: localStorage.getItem('leidy_fornada') || new Date(Date.now() + 86400000 * 3).toISOString().slice(0,16),
+            products: JSON.parse(localStorage.getItem('leidy_products')) || DEFAULT_PRODUCTS,
+            orders: JSON.parse(localStorage.getItem('leidy_orders')) || [],
+            clientUser: JSON.parse(localStorage.getItem('leidy_client')) || null
+        };
+
+        let chartInstance = null;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (state.clientUser) {
+                showMainSite();
+            } else {
+                showGateScreen();
+            }
+
+            updateDatesDisplay();
+            initCountdown();
+            renderProducts();
+            renderOrders();
+            
+            const dateInput = document.getElementById('input-fornada-date');
+            if(dateInput) dateInput.value = state.fornadaDate;
+        });
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast-msg');
+            toast.innerText = msg;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
+        }
+
+        function saveData() {
+            localStorage.setItem('leidy_products', JSON.stringify(state.products));
+            localStorage.setItem('leidy_orders', JSON.stringify(state.orders));
+            if (state.clientUser) {
+                localStorage.setItem('leidy_client', JSON.stringify(state.clientUser));
+            } else {
+                localStorage.removeItem('leidy_client');
+            }
+        }
+
+        function showGateScreen() {
+            document.getElementById('screen-gate').style.display = 'flex';
+            document.getElementById('app-site').style.display = 'none';
+        }
+
+        function showMainSite() {
+            document.getElementById('screen-gate').style.display = 'none';
+            document.getElementById('app-site').style.display = 'block';
+
+            if (state.clientUser) {
+                document.getElementById('display-welcome-name').innerText = `Olá, ${state.clientUser.name}! 👋`;
+                document.getElementById('info-client-name').innerText = state.clientUser.name;
+                document.getElementById('info-client-email').innerText = state.clientUser.email;
+                document.getElementById('info-client-phone').innerText = state.clientUser.phone;
+            } else {
+                document.getElementById('display-welcome-name').innerText = `Olá, Visitante! 👋`;
+                document.getElementById('info-client-name').innerText = "Não cadastrado";
+                document.getElementById('info-client-email').innerText = "--";
+                document.getElementById('info-client-phone').innerText = "--";
+            }
+        }
+
+        function handleGateRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('gate-name').value.trim();
+            const email = document.getElementById('gate-email').value.trim();
+            const phone = document.getElementById('gate-phone').value.trim();
+
+            if (!name || !email || !phone) return;
+
+            state.clientUser = { name, email, phone };
+            saveData();
+            showMainSite();
+            showToast('Cadastro realizado com sucesso!');
+        }
+
+        function enterAsGuest() {
+            if (!state.clientUser) {
+                state.clientUser = {
+                    name: 'Visitante',
+                    email: 'cliente@leidy.com',
+                    phone: '(11) 99999-0000'
+                };
+                saveData();
+            }
+            showMainSite();
+        }
+
+        function openSellerLoginModal() {
+            document.getElementById('modal-seller-login').classList.add('active');
+        }
+
+        function toggleRoleAccess() {
+            if (state.role === 'client') {
+                if (!state.isSellerAuthenticated) {
+                    openSellerLoginModal();
+                } else {
+                    switchRole('seller');
+                }
+            } else {
+                switchRole('client');
+            }
+        }
+
+        function switchRole(role) {
+            state.role = role;
+            document.getElementById('display-mode-label').innerText = role === 'client' ? 'Modo Cliente' : 'Modo Vendedor';
+            
+            document.getElementById('nav-client').style.display = role === 'client' ? 'flex' : 'none';
+            document.getElementById('nav-seller').style.display = role === 'seller' ? 'flex' : 'none';
+
+            if (role === 'client') {
+                switchClientTab('tab-home', document.querySelector('#nav-client .nav-link'));
+            } else {
+                switchSellerTab('tab-dash', document.querySelector('#nav-seller .nav-link'));
+            }
+        }
+
+        function handleSellerLogin(e) {
+            e.preventDefault();
+            const u = document.getElementById('seller-user').value.trim();
+            const p = document.getElementById('seller-pass').value.trim();
+            
+            if (u === 'admin' && p === 'cookie123') {
+                state.isSellerAuthenticated = true;
+                closeModal('modal-seller-login');
+                showMainSite();
+                switchRole('seller');
+                showToast('Acesso administrativo concedido!');
+            } else {
+                showToast('Usuário ou senha inválidos! (Use admin / cookie123)');
+            }
+        }
+
+        function logoutSeller() {
+            state.isSellerAuthenticated = false;
+            switchRole('client');
+            showToast('Você saiu do modo vendedor.');
+        }
+
+        function switchClientTab(tabId, element) {
+            document.querySelectorAll('#nav-client .nav-link').forEach(el => el.classList.remove('active'));
+            if(element) element.classList.add('active');
+            
+            document.querySelectorAll('main .section-page').forEach(sec => sec.classList.remove('active'));
+            const target = document.getElementById(tabId);
+            if(target) target.classList.add('active');
+        }
+
+        function switchSellerTab(tabId, element) {
+            document.querySelectorAll('#nav-seller .nav-link').forEach(el => el.classList.remove('active'));
+            if(element) element.classList.add('active');
+            
+            document.querySelectorAll('main .section-page').forEach(sec => sec.classList.remove('active'));
+            const target = document.getElementById(tabId);
+            if(target) target.classList.add('active');
+
+            if(tabId === 'tab-dash') renderDash();
+            if(tabId === 'tab-manage-products') renderSellerProducts();
+            if(tabId === 'tab-seller-orders') renderSellerOrders();
+        }
+
+        function updateDatesDisplay() {
+            const today = new Date();
+            const dateStr = today.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('display-today-str').innerText = 'Hoje é ' + dateStr;
+            
+            const fornada = new Date(state.fornadaDate);
+            if(!isNaN(fornada.getTime())) {
+                document.getElementById('display-fornada-str').innerText = fornada.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+            }
+        }
+
+        function saveFornadaDate(e) {
+            e.preventDefault();
+            const val = document.getElementById('input-fornada-date').value;
+            if(val) {
+                state.fornadaDate = val;
+                localStorage.setItem('leidy_fornada', val);
+                updateDatesDisplay();
+                showToast('Data da fornada atualizada!');
+            }
+        }
+
+        function initCountdown() {
+            setInterval(() => {
+                const diff = new Date(state.fornadaDate).getTime() - new Date().getTime();
+                if(diff > 0) {
+                    document.getElementById('cd-days').innerText = String(Math.floor(diff / 86400000)).padStart(2, '0');
+                    document.getElementById('cd-hours').innerText = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+                    document.getElementById('cd-min').innerText = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+                } else {
+                    document.getElementById('cd-days').innerText = "00";
+                    document.getElementById('cd-hours').innerText = "00";
+                    document.getElementById('cd-min').innerText = "00";
+                }
+            }, 1000);
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('client-products-grid');
+            grid.innerHTML = '';
+            state.products.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="product-img">${p.emoji || '🍪'}<span class="badge-stock">${p.stock} dispon.</span></div>
+                    <div class="product-details">
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-desc">${p.desc}</div>
+                        <div class="product-bottom">
+                            <div class="product-price">R$ ${p.price.toFixed(2).replace('.', ',')}</div>
+                            <button class="btn" ${p.stock <= 0 ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''} onclick="openBuyModal(${p.id})">
+                                ${p.stock > 0 ? 'Encomendar' : 'Esgotado'}
+                            </button>
+                        </div>
+                    </div>`;
+                grid.appendChild(card);
+            });
+        }
+
+        let selectedProductForBuy = null;
+        function openBuyModal(productId) {
+            selectedProductForBuy = state.products.find(p => p.id === productId);
+            if(!selectedProductForBuy) return;
+
+            document.getElementById('buy-modal-title').innerText = `Encomendar ${selectedProductForBuy.name}`;
+            document.getElementById('buy-modal-desc').innerText = selectedProductForBuy.desc;
+            document.getElementById('buy-product-id').value = selectedProductForBuy.id;
+            document.getElementById('buy-quantity').value = 1;
+            updateBuyTotal();
+            document.getElementById('modal-buy').classList.add('active');
+        }
+
+        function updateBuyTotal() {
+            if(!selectedProductForBuy) return;
+            const qty = parseInt(document.getElementById('buy-quantity').value) || 1;
+            document.getElementById('buy-total-price').innerText = (qty * selectedProductForBuy.price).toFixed(2).replace('.', ',');
+        }
+
+        function confirmOrder(e) {
+            e.preventDefault();
+            const qty = parseInt(document.getElementById('buy-quantity').value);
+            if(qty > selectedProductForBuy.stock) {
+                showToast('Estoque insuficiente para este pedido!');
+                return;
+            }
+
+            selectedProductForBuy.stock -= qty;
+            state.orders.push({
+                id: Date.now(),
+                clientName: state.clientUser ? state.clientUser.name : 'Cliente',
+                clientEmail: state.clientUser ? state.clientUser.email : 'contato@cliente.com',
+                clientPhone: state.clientUser ? state.clientUser.phone : '--',
+                productName: selectedProductForBuy.name,
+                quantity: qty,
+                totalPrice: qty * selectedProductForBuy.price,
+                totalCost: qty * selectedProductForBuy.cost,
+                date: new Date().toLocaleDateString('pt-BR')
+            });
+
+            saveData();
+            closeModal('modal-buy');
+            renderProducts();
+            renderOrders();
+            showToast('🎉 Pedido realizado com sucesso!');
+        }
+
+        function renderOrders() {
+            const tbody = document.getElementById('client-orders-tbody');
+            tbody.innerHTML = '';
+            const myOrders = state.clientUser ? state.orders.filter(o => o.clientEmail === state.clientUser.email) : [];
+            if(myOrders.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color: var(--text-muted);">Nenhum pedido efetuado até o momento.</td></tr>`;
+                return;
+            }
+            myOrders.forEach(o => {
+                tbody.innerHTML += `<tr><td>${o.date}</td><td><b>${o.productName}</b></td><td>${o.quantity}</td><td>R$ ${o.totalPrice.toFixed(2).replace('.', ',')}</td></tr>`;
+            });
+        }
+
+        function renderSellerProducts() {
+            const tbody = document.getElementById('seller-products-tbody');
+            tbody.innerHTML = '';
+            state.products.forEach(p => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td><b>${p.name}</b></td>
+                        <td>R$ ${p.price.toFixed(2).replace('.', ',')}</td>
+                        <td>R$ ${p.cost.toFixed(2).replace('.', ',')}</td>
+                        <td>${p.stock} un.</td>
+                        <td>
+                            <button class="btn btn-secondary" style="padding: 4px 8px; font-size:0.8rem;" onclick="openEditProductModal(${p.id})">Editar</button>
+                            <button class="btn btn-danger" style="padding: 4px 8px; font-size:0.8rem;" onclick="deleteProduct(${p.id})">Excluir</button>
+                        </td>
+                    </tr>`;
+            });
+        }
+
+        function openAddProductModal() {
+            document.getElementById('prod-modal-title').innerText = "Novo Cookie";
+            document.getElementById('prod-id').value = "";
+            document.getElementById('prod-name').value = "";
+            document.getElementById('prod-desc').value = "";
+            document.getElementById('prod-price').value = "";
+            document.getElementById('prod-cost').value = "";
+            document.getElementById('prod-stock').value = "";
+            document.getElementById('modal-product').classList.add('active');
+        }
+
+        function openEditProductModal(id) {
+            const p = state.products.find(prod => prod.id === id);
+            if(!p) return;
+            document.getElementById('prod-modal-title').innerText = "Editar Cookie";
+            document.getElementById('prod-id').value = p.id;
+            document.getElementById('prod-name').value = p.name;
+            document.getElementById('prod-desc').value = p.desc;
+            document.getElementById('prod-price').value = p.price;
+            document.getElementById('prod-cost').value = p.cost;
+            document.getElementById('prod-stock').value = p.stock;
+            document.getElementById('modal-product').classList.add('active');
+        }
+
+        function saveProduct(e) {
+            e.preventDefault();
+            const id = document.getElementById('prod-id').value;
+            const name = document.getElementById('prod-name').value;
+            const desc = document.getElementById('prod-desc').value;
+            const price = parseFloat(document.getElementById('prod-price').value);
+            const cost = parseFloat(document.getElementById('prod-cost').value);
+            const stock = parseInt(document.getElementById('prod-stock').value);
+
+            if(id) {
+                const p = state.products.find(prod => prod.id === parseInt(id));
+                if(p) { p.name = name; p.desc = desc; p.price = price; p.cost = cost; p.stock = stock; }
+            } else {
+                state.products.push({ id: Date.now(), name, desc, price, cost, stock, emoji: '🍪' });
+            }
+            saveData();
+            closeModal('modal-product');
+            renderSellerProducts();
+            renderProducts();
+            showToast('Produto salvo!');
+        }
+
+        function deleteProduct(id) {
+            if(confirm('Deseja realmente apagar este cookie?')) {
+                state.products = state.products.filter(p => p.id !== id);
+                saveData();
+                renderSellerProducts();
+                renderProducts();
+                showToast('Produto excluído.');
+            }
+        }
+
+        function renderSellerOrders() {
+            const tbody = document.getElementById('seller-orders-tbody');
+            tbody.innerHTML = '';
+            if(state.orders.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: var(--text-muted);">Nenhum pedido efetuado ainda.</td></tr>`;
+                return;
+            }
+            state.orders.forEach(o => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td><b>${o.clientName}</b></td>
+                        <td>${o.clientPhone}<br><small>${o.clientEmail}</small></td>
+                        <td>${o.productName}</td>
+                        <td>${o.quantity}</td>
+                        <td>R$ ${o.totalPrice.toFixed(2).replace('.', ',')}</td>
+                    </tr>`;
+            });
+        }
+
+        function renderDash() {
+            let totalRevenue = 0;
+            let totalCost = 0;
+            state.orders.forEach(o => { totalRevenue += o.totalPrice; totalCost += o.totalCost; });
+            const totalProfit = totalRevenue - totalCost;
+            const margin = totalRevenue > 0 ? ((totalProfit / totalRevenue) * 100).toFixed(1) : 0;
+
+            document.getElementById('stat-revenue').innerText = `R$ ${totalRevenue.toFixed(2).replace('.', ',')}`;
+            document.getElementById('stat-cost').innerText = `R$ ${totalCost.toFixed(2).replace('.', ',')}`;
+            document.getElementById('stat-profit').innerText = `R$ ${totalProfit.toFixed(2).replace('.', ',')}`;
+            document.getElementById('stat-margin').innerText = `${margin}%`;
+
+            const ctx = document.getElementById('profitChart').getContext('2d');
+            if(chartInstance) chartInstance.destroy();
+
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Faturamento', 'Custo Produção', 'Lucro Líquido'],
+                    datasets: [{
+                        data: [totalRevenue, totalCost, totalProfit],
+                        backgroundColor: ['#2E5A44', '#8C532B', '#27ae60'],
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function openEditProfileModal() {
+            if(state.clientUser) {
+                document.getElementById('edit-name').value = state.clientUser.name;
+                document.getElementById('edit-email').value = state.clientUser.email;
+                document.getElementById('edit-phone').value = state.clientUser.phone;
+            }
+            document.getElementById('modal-edit-profile').classList.add('active');
+        }
+
+        function saveProfileChanges(e) {
+            e.preventDefault();
+            state.clientUser = {
+                name: document.getElementById('edit-name').value,
+                email: document.getElementById('edit-email').value,
+                phone: document.getElementById('edit-phone').value
+            };
+            saveData();
+            showMainSite();
+            closeModal('modal-edit-profile');
+            showToast('Perfil atualizado com sucesso!');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+    </script>
+</body>
+</html>
